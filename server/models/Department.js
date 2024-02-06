@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
@@ -24,12 +25,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Department.associate = (models) => {
-    Department.hasMany(models.Lectureinfo,{
-      foreignKey:'OGR_BİRİM_KODU'
-    });
-    Department.hasMany(models.Branch,{
-      foreignKey:'OGR_BİRİM_KODU'
-    })
+
   };
 
   return Department;

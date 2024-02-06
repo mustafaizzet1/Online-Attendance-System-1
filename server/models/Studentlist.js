@@ -14,16 +14,28 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.DOUBLE,
             allowNull:false
           },
-          longtitude:{
+          longitude:{
             type:DataTypes.DOUBLE,
             allowNull:false
           },
           OGRENCI_NO:{
             type:DataTypes.STRING,
             allowNull:false
-          }
+          },
 
-    });
+          createdAt: {
+            type: DataTypes.DATE,
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+          },
+          updatedAt: {
+            type: DataTypes.DATE,
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+          },
+        }, {
+          timestamps: true,
+          updatedAt: 'updatedAt',
+          createdAt: 'createdAt',
+        });
 
     Studentlist.associate = (models) => {
        Studentlist.belongsTo(models.Submission_type);     

@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updatedAt', // Specify the name of the updatedAt column
     createdAt: 'createdAt', // Specify the name of the createdAt column
     // Define foreign key constraints
-  
   });
 
   Lectureinfo.associate = (models) => {

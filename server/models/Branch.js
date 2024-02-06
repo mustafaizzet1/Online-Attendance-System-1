@@ -30,8 +30,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Branch.associate = (models) => {
- 
+   
   };
+
 
   return Branch;
 };
