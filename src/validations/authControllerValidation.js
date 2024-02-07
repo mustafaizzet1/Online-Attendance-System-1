@@ -1,0 +1,3 @@
+exports.loginSurnameValidate = (surname) => {
+    //regex
+};

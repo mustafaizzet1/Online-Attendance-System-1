@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Öğrenci Profili</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <style>
+    body {
+      background-image: url('C:/Users/Efe/Desktop/Sayfalar/deu_bg.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      flex-direction: column; /* İçeriği dikey hizalamak için */
+    }
+
+    .header {
+      background-color: #458bc0; /* Şerit rengi */
+      color: #fff; /* Metin rengi */
+      padding: 10px; /* Şerit içindeki içeriğin kenar boşluğu */
+      text-align: center;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header i {
+      margin-right: 10px; /* İkon ile metin arasındaki boşluk */
+    }
+
+    .header span {
+      font-size: 24px; /* Ana Sayfa yazısının büyüklüğü */
+    }
+
+    .profile-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-container img {
+      max-width: 50%;
+      height: auto;
+    }
+
+    .options-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn-custom {
+      margin: 5px;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 16px;
+      display: block;
+      width: 50%;
+      background-color: #458bc0;
+      color: #fff;
+    }
+
+    .options-container button {
+      margin: 5px;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 16px;
+      display: inline-block;
+      width: 50%;
+      background-color: #458bc0;
+      color: #fff;
+      border: none;
+      transition: background-color 0.3s;
+    }
+
+    .options-container button.btn-secondary {
+      background-color: #007bff;
+    }
+
+    .options-container button:hover {
+      background-color: #0056b3;
+    }
+
+    #camera-preview {
+      display: none;
+      width: 100%;
+    }
+
+    /* Center the "Onayla" button and add some margin between the text box and button */
+    #lectureForm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px; /* Adjust the gap as needed */
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="header">  
+  <span>Yoklamaya Katıl</span>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center profile-container">
+    <div class="col-md-6 col-sm-12">
+      <div class="options-container">
+        <button class="btn-custom" onclick="initiateQRScan()">QR Kodu Okut</button>
+        <button class="btn-custom" onclick="redirectToLectures()">Oturum Kodu Gir</button>
+      </div>
+      
+      <!-- Place the lecturePage div here, outside of the options-container div -->
+      <div id="lecturePage" style="display: none;">
+        <form id="lectureForm">
+          <label for="sessionCode">Oturum Kodu:</label>
+          <input type="text" id="sessionCode" name="sessionCode" required>
+          <button type="button" class="btn-custom" onclick="submitSessionCode()">Onayla</button>
+        </form>
+      </div>
+      
+      <!-- Camera preview element -->
+      <video id="camera-preview" playsinline></video>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS ve Popper.js (jQuery bağımlılığı için) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Font Awesome Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+<!-- Include the jsQR library for QR code decoding -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.0.0/dist/jsQR.min.js"></script>
+
+
+<script>
+  function redirectToAttendance() {
+    window.location.href = "C:/Users/Efe/Desktop/Sayfalar/yoklama-sayfasi.html";
+  }
+  function redirectToLectures() {
+    // Oturum Kodu Gir butonuna tıklanınca Oturum Kodu Gir formunu göster
+    document.getElementById("lecturePage").style.display = "block";
+  }
+
+  function initiateQRScan() {
+    // Hide other elements and display the camera preview
+    window.location.href = "C:/Users/Efe/Desktop/Sayfalar/index.html";
+  }
+ 
+
+  function submitSessionCode() {
+    // Oturum Kodu Gir formunu submit et
+    var sessionCodeValue = document.getElementById("sessionCode").value;
+    // Burada sessionCodeValue değişkenini kullanarak istediğiniz işlemleri gerçekleştirebilirsiniz
+    // Örneğin, bu değeri başka bir sayfaya göndermek için bir AJAX çağrısı yapabilirsiniz
+    console.log("Oturum Kodu: " + sessionCodeValue);
+  }
+</script>
+
+<!-- Include the jsQR library for QR code decoding -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.0.0/dist/jsQR.min.js"></script>
+
+</body>
+</html>

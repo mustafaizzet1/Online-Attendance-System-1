@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Login Ekranı</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-image: url('background.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo-container img {
+      max-width: 50%;
+      height: auto;
+    }
+
+    .card-body {
+      text-align: center;
+    }
+
+    form {
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    input.form-control {
+      border-radius: 25px;
+      background-color: #ecf0f3; 
+      color: #000; 
+    }
+
+    button.btn-primary {
+      width: 50%;
+      border-radius: 25px;
+      margin-right: auto;
+      margin-left: auto;
+    }    
+    input.form-control::placeholder {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row justify-content-center login-container">
+    <div class="col-md-4 col-sm-12">
+      <div class="logo-container">
+        <img src="Deu_logo.png" alt="Logo">
+      </div>      
+        <div class="card-body">
+          <form onsubmit="checkCredentials(event)">
+            <div class="mb-3">
+              <input type="text" class="form-control" id="username" placeholder="ID" required>
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control" id="password" placeholder="Şifre" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Giriş Yap</button>
+          </form>
+        </div>      
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS ve Popper.js (jQuery bağımlılığı için) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  function checkCredentials(event) {
+    event.preventDefault();
+
+    var enteredUsername = document.getElementById("username").value;
+    var enteredPassword = document.getElementById("password").value;
+
+    
+    if (enteredUsername === "Yaman Efe Gümüs" && enteredPassword === "123") {      
+      window.location.href = "C:/Users/Hakan/Desktop/Online Attendance System/sayfalar/ogrenci_anasayfasi.html";
+    } else {
+      alert("Şifre veya ID hatalı! Lütfen tekrar deneyin.");
+    }
+  }
+</script>
+
+</body>
+</html>
