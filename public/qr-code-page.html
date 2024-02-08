@@ -61,31 +61,60 @@
 
     <div id="qrCodeDisplay">
         <canvas id="qrCodeCanvas"></canvas>
-        <!-- This is where the QR code or its data will be displayed -->
+        <div id="qrDisplay"></div>
+        <div id="remainingTime"></div>
+        <div id="qrcode"></div>
     </div>
 
     <script>
-
-        const currentDate = new Date();
-        const day = String(currentDate.getDate()).padStart(2, '0');
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-        const year = currentDate.getFullYear();
-        const formattedDate = `${day}/${month}/${year}`;
-
-        // Set the header text dynamically to the current date
-        document.getElementById('headerText').textContent = formattedDate + "Tarihli Yoklama";
-        // Retrieve the URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        console.log(window.location.search)
-        const qrData = urlParams.get('qrData');
-
-        const qrCodeCanvas = document.getElementById('qrCodeCanvas');
-        new QRCode(qrCodeCanvas, {
-            text: qrData,
-            width: 200,
-            height: 200
-    });
-        
-    </script>
+        function generateAndDisplayQRCode() {
+          fetch('/getQR')
+            .then(response => response.json())
+            .then(data => {
+              updateQRCode(data.qrCodeDataURL,data.randomText);
+            })
+            .catch(error => console.error('Error:', error));
+            
+        }
+    
+        function updateQRCode(qrCodeDataURL,randomText) {
+          const qrDisplay = document.getElementById('qrDisplay');
+          qrDisplay.innerHTML = `<img src="${qrCodeDataURL}" alt="QR Code" />`;
+          const qrcode = document.getElementById('qrcode');
+          qrcode.style.width = '128px';
+          qrcode.style.height = '128px';
+           qrcode.style.marginTop = '10px';
+          qrcode.textContent = `Text: ${randomText}`;
+        }
+    
+        function updateRemainingTime(seconds) {
+          const remainingTimeDisplay = document.getElementById('remainingTime');
+          const minutes = Math.floor(seconds / 60);
+          const remainingSeconds = seconds % 60;
+          remainingTimeDisplay.textContent = `Remaining Time: ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        }
+    
+        let timer;
+        let seconds = 30;
+    
+        function startUpdatingQRCode() {
+          generateAndDisplayQRCode(); // Call initially
+          timer = setInterval(function () {
+            updateRemainingTime(seconds);
+            seconds--;
+    
+            if (seconds < 0) {
+              clearInterval(timer);
+              timer = null;
+              seconds = 30;
+              startUpdatingQRCode(); // Restart the process
+            }
+          }, 1000); // Update every second
+        }
+    
+        // Start the process
+        startUpdatingQRCode();
+      </script>
+    
 </body>
 </html>

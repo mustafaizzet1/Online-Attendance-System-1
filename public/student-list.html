@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,82 +19,118 @@
             padding: 0;
             flex-direction: column;
             justify-content: center;
-            display:block;
+            display: block;
             align-items: center;
             background-image: url('images/background.jpeg');
             background-repeat: repeat;
             background-size: cover;
-            overflow: scroll;    
-        }   
+            overflow: scroll;
+        }
 
         .header {
-            position: relative;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 35px;
+            background-color: #458bc0;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .header span {
+            font-size: 24px;
         }
 
         .blue-line {
             width: 100%;
             height: 8px;
             background-color: #007bff;
-            position: absolute; /* Use absolute positioning */
+            position: absolute;
+            /* Use absolute positioning */
         }
 
         .header span {
             font-size: 24px;
         }
+
+        .course-name {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .course-name h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .course-name .blue-line {
+            width: 70%;
+            height: 8px;
+            background-color: #458bc0;
+            margin: auto;
+            margin-top: 70px;
+            position: absolute;
+        }
+
         .container {
             margin-top: 30px;
         }
 
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            border: 2px solid #007bff;
+            background-color: #ecf0f3;
+            padding: 20px;
+            border-radius: 15px;
+            width: 70%;
+            margin: auto;
+            border: 2px solid #458bc0;
         }
 
-        th, td {
-            border: 1px solid #007bff;
+        th,
+        td {
+            border: 1px solid #458bc0;
             padding: 8px;
             text-align: left;
         }
 
         th {
-            background-color: #007bff;
+            background-color: #458bc0;
             color: white;
         }
 
+        .btn-custom-container {
+            display: flex;
+            justify-content: center;
+        }
+
         .btn-custom {
-            margin: 15px 0;
-            padding: 12px 24px;
-            border-radius: 50px;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 15px;
             font-size: 16px;
             background-color: #458bc0;
             color: #fff;
             transition: background-color 0.3s;
             border: none;
+            width: 20%;
         }
 
         .btn-custom:hover {
             background-color: #5a96cc;
         }
-
-    
     </style>
 </head>
+
 <body>
     <div class="header">
-        <h1>Öğrenci Listesi</h1>
+        <span>Öğrenci Listesi</span>
     </div>
 
-    <div class="blue-line"></div>
+    <div class="course-name">
+        <h2>TEKNİK İNGİLİZCE</h2>
+        <div class="blue-line"></div>
+    </div>
 
     <div class="container">
         <table id="studentTable">
@@ -108,16 +145,19 @@
             <tbody>
             </tbody>
         </table>
-        <button type="button" class="btn btn-primary btn-custom" onclick="goBack()">Geri</button>
-    </div>
+        <div class="btn-custom-container">
+            <button type="button" class="btn btn-secondary btn-custom" onclick="goBack()">Geri</button>
+        </div>
+        </div>
+        
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             // Dummy student data
             const students = [
                 { number: '2019510096', name: 'Şükrü Berk Öztaş', courseAttendance: '80%', labAttendance: '75%' },
                 { number: '2020510031', name: 'Tyler Durden', courseAttendance: '85%', labAttendance: '80%' },
                 { number: '2020510081', name: 'Patrick Bateman', courseAttendance: '75%', labAttendance: '70%' },
-                { number: '2020510069', name: 'Kanye West', courseAttendance: '70%', labAttendance: '90%'}
+                { number: '2020510069', name: 'Kanye West', courseAttendance: '70%', labAttendance: '90%' }
                 // Add more dummy students as needed
             ];
 
@@ -137,8 +177,26 @@
             });
         });
 
-        
+        document.addEventListener("DOMContentLoaded", () => {
+            // Retrieve the course ID from the URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('courseId');
+
+            // Get a reference to the student list button
+            const studentListButton = document.getElementById("studentListButton");
+
+            // Attach an event listener to the student list button
+            studentListButton.addEventListener("click", () => {
+                // Redirect the user to the student list page with the course ID parameter
+                window.location.href = `student-list.html?courseId=${courseId}`;
+            });
+        });
+
+        function goBack() {
+            window.history.back();
+        }
     </script>
 
 </body>
+
 </html>
