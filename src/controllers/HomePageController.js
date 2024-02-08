@@ -14,6 +14,13 @@ exports.studentHomePage = (req, res) => {
         { name: "Machine Learning" }
     ];
 
-    res.render('studentHomePage', { studentCourses: studentCourses });
+    
+    if (req.session.user) {
+     
+        res.render('studentHomePage', { studentCourses: studentCourses });
+        
+      } else {
+        res.redirect('/');
+      }
 
 };
