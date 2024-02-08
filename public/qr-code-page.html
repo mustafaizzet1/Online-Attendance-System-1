@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic QR Code Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- Add any necessary styles or scripts -->
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+            justify-content: center;
+            display:block;
+            align-items: center;
+            background-image: url('images/background.jpeg');
+            background-repeat: repeat;
+            background-size: cover;
+            overflow: scroll;    
+        }   
+
+        .header {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 35px;
+        }
+
+        .blue-line {
+            width: 100%;
+            height: 8px;
+            background-color: #007bff;
+            position: absolute; /* Use absolute positioning */
+        }
+
+        .header span {
+            font-size: 24px;
+        }
+
+    
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="headerText"></h1>
+    </div>
+
+    <div class="blue-line"></div>
+
+    <div id="qrCodeDisplay">
+        <canvas id="qrCodeCanvas"></canvas>
+        <!-- This is where the QR code or its data will be displayed -->
+    </div>
+
+    <script>
+
+        const currentDate = new Date();
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const year = currentDate.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;
+
+        // Set the header text dynamically to the current date
+        document.getElementById('headerText').textContent = formattedDate + "Tarihli Yoklama";
+        // Retrieve the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        console.log(window.location.search)
+        const qrData = urlParams.get('qrData');
+
+        const qrCodeCanvas = document.getElementById('qrCodeCanvas');
+        new QRCode(qrCodeCanvas, {
+            text: qrData,
+            width: 200,
+            height: 200
+    });
+        
+    </script>
+</body>
+</html>

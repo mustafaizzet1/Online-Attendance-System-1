@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Dersler </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+            justify-content: center;
+            display: grid;
+            align-items: center;
+            height: 100vh;
+            background-image: url('images/background.jpeg');
+            background-repeat: repeat;
+            background-size: cover;
+            overflow: scroll;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            /* Ensure the header is above other elements */
+        }
+
+        .tabs-container {
+            position: relative;
+            top: 50px;
+            left: 0px;
+            display: inline-block;
+            padding: 0 10px;
+        }
+
+        .tabs {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            border-bottom: 1px solid #ccc;
+            border-radius: 5px 5px 0 0;
+            margin-left: 40px;
+            margin-top: 13px;
+        }
+
+        .tabs li.theory-tab {
+            float: left;
+            background-color: #add8e6;
+            /* Change this to light blue */
+        }
+
+        .tabs li.theory-tab a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            box-shadow: -1px 2px 4px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+        .tabs li.theory-tab.active {
+            background-color: #007bff;
+            /* Change this to blue */
+        }
+
+        .tabs li.theory-tab.active a {
+            color: white;
+            /* Change this to the desired text color */
+        }
+
+        .tabs li.practice-tab {
+            float: left;
+            background-color: #add8e6;
+            /* Change this to light blue */
+        }
+
+        .tabs li.practice-tab a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px 5px 0 0;
+            box-shadow: -1px 2px 4px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+        .tabs li.practice-tab.active {
+            background-color: #007bff;
+            /* Change this to blue */
+        }
+
+        .tabs li.practice-tab.active a {
+            color: white;
+            /* Change this to the desired text color */
+        }
+
+
+        .course-name {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .course-name h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .blue-line {
+            width: 100%;
+            height: 8px;
+            background-color: #007bff;
+        }
+
+        .menu {
+            width: 200px;
+            color: #fff;
+            padding: 20px;
+            border-radius: 100px;
+            align-items: center;
+            margin-left: 110px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 20px;
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid #555;
+        }
+
+        .menu a:hover {
+            background-color: #0000cd;
+        }
+
+        .logout-button {
+            display: block;
+            padding: 10px;
+            background-color: #000080;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 1px;
+            border-radius: 100px;
+        }
+
+        .logout-button:hover {
+            background-color: #0000cd;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            padding: 20px;
+            align-items: center;
+            margin-left: 5px;
+            margin-top: 42px;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #practiceTable {
+            display: none;
+            /* Hide the practice table by default */
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #practiceTable th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+        }
+
+        #practiceTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #practiceTable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #practiceTable tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Theory Table */
+        #theoryTable {
+            display: none;
+            /* Hide the theory table by default */
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #theoryTable th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+        }
+
+        #theoryTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #theoryTable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #theoryTable tr:hover {
+            background-color: #ddd;
+        }
+
+        .btn-yoklama-goruntule {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            width: 300px;
+            height: 50px;
+            font-size: 12px;
+            line-height: 25px;
+        }
+
+        .btn-yoklama-goruntule:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .btn-yoklama-goruntule:focus,
+        .btn-yoklama-goruntule.focus {
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+        }
+
+        .btn-yetkilendir {
+            background-color: #458bc0;
+            border-color: #458bc0;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            width: 150px;
+            height: 50px;
+            font-size: 12px;
+            line-height: 25px;
+        }
+
+        .btn-yetkilendir:hover {
+            background-color: #4a6dbf;
+            border-color: #4a6dbf;
+        }
+
+        .btn-yetkilendir:focus,
+        .btn-yetkilendir.focus {
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+        }
+
+        .btn-qr {
+            background-color: #458bc0;
+            border-color: #458bc0;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            width: 150px;
+            height: 50px;
+            font-size: 12px;
+            line-height: 25px;
+        }
+
+        .btn-qr:hover {
+            background-color: #4a6dbf;
+            border-color: #4a6dbf;
+        }
+
+        .btn-qr:focus,
+        .btn-qr.focus {
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+        }
+
+        .btn-list {
+            background-color: #458bc0;
+            border-color: #458bc0;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            width: 150px;
+            height: 50px;
+            font-size: 12px;
+            line-height: 25px;
+        }
+
+        .btn-list:hover {
+            background-color: #4a6dbf;
+            border-color: #4a6dbf;
+        }
+
+        .btn-list:focus,
+        .btn-list.focus {
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+        }
+
+        #bottom-buttons {
+            position: relative;
+            margin-top: 20px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div id="course-id" class="course-name"></div>
+        <div class="blue-line"></div>
+    </div>
+    </div>
+    <div class="tabs-container">
+        <ul class="tabs">
+            <li class="theory-tab active"><a href="#" onclick="showTheoryTable()">Teorik</a></li>
+            <li class="practice-tab"><a href="#" onclick="showPracticeTable()">Uygulama</a></li>
+        </ul>
+    </div>
+
+    <table id="theoryTable" class="table">
+        <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Yoklamalar</th>
+            </tr>
+        </thead>
+        <tbody id="theoryTable">
+            <!-- Theory table rows -->
+        </tbody>
+    </table>
+
+    <table id="practiceTable" class="table">
+        <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Yoklamalar</th>
+            </tr>
+        </thead>
+        <tbody id="practiceTable">
+            <!-- Practice table rows -->
+        </tbody>
+    </table>
+
+    <div id="bottom-buttons"></div>
+
+    <div class="menu">
+        <a href="/teacher-menu.html" class="logout-button">Geri</a>
+    </div>
+    <script>
+
+        const studentListButton = document.createElement('button');
+        studentListButton.classList.add("btn", "btn-list");
+        studentListButton.textContent = "Öğrenci Listesi";
+
+        const authorizeButton = document.createElement('button');
+        authorizeButton.classList.add("btn", "btn-yetkilendir");
+        authorizeButton.textContent = "Yetkilendir";
+
+        const createQRCodeButton = document.createElement('button');
+        createQRCodeButton.classList.add("btn", "btn-qr");
+        createQRCodeButton.textContent = "QR Kod Oluştur";
+
+
+        const bottomButtons = document.getElementById('bottom-buttons');
+        bottomButtons.appendChild(authorizeButton);
+        bottomButtons.appendChild(createQRCodeButton);
+        bottomButtons.appendChild(studentListButton);
+
+        const theoryData = [
+            { date: "2024-01-01" },
+            { date: "2024-01-08" },
+            { date: "2024-01-15" },
+            { date: "2024-01-23" }
+        ];
+
+        const practiceData = [
+            { date: "2024-01-02" },
+            { date: "2024-01-09" },
+            { date: "2024-01-16" }
+        ];
+
+
+        // Initialize the table display style
+        document.getElementById("theoryTable").style.display = "none";
+        document.getElementById("practiceTable").style.display = "none";
+
+        // Function to show the theory table
+        function showTheoryTable() {
+            // Hide the practice table
+            document.getElementById("practiceTable").style.display = "none";
+
+            // Show the theory table
+            document.getElementById("theoryTable").style.display = "table";
+
+            document.querySelector(".tabs li.active").classList.remove("active");
+            document.querySelector(".tabs li.theory-tab").classList.add("active");
+        }
+
+        // Function to show the practice table
+        function showPracticeTable() {
+            document.getElementById("theoryTable").style.display = "none";
+            document.getElementById("practiceTable").style.display = "table";
+            document.querySelector(".tabs li.active").classList.remove("active");
+            document.querySelector(".tabs li.practice-tab").classList.add("active");
+        }
+
+        function attachEventListeners() {
+            document.querySelector(".tabs li.theory-tab a").addEventListener('click', showTheoryTable);
+            document.querySelector(".tabs li.practice-tab a").addEventListener('click', showPracticeTable);
+        }
+        // Function to update the table rows with the given array of QR code creation statuses
+
+        function updateTableRows(tableId, data) {
+            const tableBody = document.getElementById(tableId);
+
+            // Remove existing rows
+            while (tableBody.firstChild) {
+                tableBody.removeChild(tableBody.firstChild);
+            }
+
+            // Add new rows based on the QR code creation statuses
+            data.forEach(item => {
+                const row = document.createElement("tr");
+                const dateCell = document.createElement("td");
+                const viewAbsenceListCell = document.createElement("td");
+
+                dateCell.textContent = item.date;
+
+                // Create the "View Absence List" button
+                const viewAbsenceListButton = document.createElement("button");
+                viewAbsenceListButton.classList.add("btn", "btn-yoklama-goruntule");
+                viewAbsenceListButton.textContent = "Yoklama Listesini Gör";
+
+                // Add an event listener to the button to redirect to the absence list page
+                viewAbsenceListButton.addEventListener('click', () => {
+                    // Redirect to the absence list page for the specific date
+                    window.location.href = `/Yoklama-listesi.html?courseId=${courseId}&date=${item.date}`;
+                });
+
+                attachEventListeners({ authorizeButton, createQRCodeButton, studentListButton });
+
+                viewAbsenceListCell.appendChild(viewAbsenceListButton);
+
+                row.appendChild(dateCell);
+                row.appendChild(viewAbsenceListCell);
+
+                tableBody.appendChild(row);
+            });
+        }
+
+
+        // Example usage:
+        updateTableRows("theoryTable", theoryData);
+        updateTableRows("practiceTable", practiceData);
+
+        // Function to attach event listeners to the buttons
+        function attachEventListeners(buttons) {
+            buttons.authorizeButton.addEventListener('click', () => {
+                // Redirect to the absence list page for the specific date
+                window.location.href = "Yetkilendir.html";
+            });
+            buttons.createQRCodeButton.addEventListener('click', () => {
+                // Redirect to the absence list page for the specific date
+                window.location.href = `/Yoklama.html?courseId=${courseId}&date=${currentDate}`;
+            });
+            buttons.studentListButton.addEventListener("click", () => {
+                // Redirect the user to the student list page with the course ID parameter
+                window.location.href = `/student-list.html?courseId=${courseId}`;
+                console.log("QWE");
+            });
+
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const theoryTab = document.querySelector(".tabs .theory-tab a");
+            const practiceTab = document.querySelector(".tabs .practice-tab a");
+
+            theoryTab.addEventListener("click", showTheoryTable);
+            practiceTab.addEventListener("click", showPracticeTable);
+
+            // Set the initial active tab
+            const tableContainer = document.querySelector(".table-container");
+            const table = document.querySelector("table.table");
+            const bottomButtons = document.getElementById("bottom-buttons");
+
+            function updateBottomButtonsPosition() {
+                // Set the height of the table container based on the height of the table
+                tableContainer.style.height = `${table.clientHeight}px`;
+
+                // Update the position of the bottom-buttons container
+                const tableBottom = table.getBoundingClientRect().bottom;
+                const windowHeight = window.innerHeight;
+                const menuBarHeight = 64; // Assuming the height of the menu bar is 64 pixels
+
+                bottomButtons.style.top = `${tableBottom + 10}px`;
+
+                // Make sure the buttons are not positioned below the bottom of the window
+                if (bottomButtons.offsetTop + bottomButtons.clientHeight > windowHeight - menuBarHeight) {
+                    bottomButtons.style.top = `${windowHeight - menuBarHeight - bottomButtons.clientHeight - 10}px`;
+                }
+            }
+
+            window.addEventListener("resize", updateBottomButtonsPosition);
+            updateBottomButtonsPosition();
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Retrieve the course ID from the URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('courseId');
+            const courseIdDiv = document.getElementById('course-id');
+            courseIdDiv.innerHTML = `<h2>Course ID: ${courseId}</h2>`;
+        });
+
+
+
+        showTheoryTable();
+
+        // Retrieve the course ID from the URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get('courseId');
+        const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+        document.getElementById('courseDetails').innerText = `Course ID: ${courseId}`;
+
+
+
+
+        // Add other JavaScript functions (viewAbsenceList, createQRCode, Authorize) here or include them in an external file
+    </script>
+</body>
+
+</html>

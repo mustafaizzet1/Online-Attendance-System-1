@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEÜmobil - Teacher Courses</title>
+    <style>
+        body {
+            background-image: url('background.jpeg');
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            background-size: cover;
+            background-position: center;
+      
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            
+        }
+        .header {
+            background-color: #458bc0;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header span {
+            font-size: 24px;
+        }
+
+
+        .teacher-name {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .teacher-name h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .teacher-name .blue-line {
+            width: 70%;
+            height: 8px;
+            background-color: #458bc0;
+            margin: auto;
+            margin-top: 70px;
+            position: absolute;
+        }
+        .menu {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .menu .logout-button {
+            border: none;
+            background-color: #458bc0;
+            color: #fff;
+            padding: 10px;
+            margin-top: 20px; /* margin'ı yukarı taşıdık */
+            margin-bottom:10px;
+            width: 20%;
+            border-radius: 15px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            position: absolute;
+            transform: translateX(-50%); /* button'u yatayda tam ortalamak için */
+            bottom: 10px;
+        }
+
+        .menu .logout-button:hover {
+            background-color: #5a96cc;
+        }
+
+        .courses {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            align-items: center;
+            text-align: center;
+            flex-grow: 1;
+            margin-top: 20px;
+            margin-bottom: 50px;
+            
+        }
+    
+
+
+        .course a {
+            padding: 10px;
+            background-color: #458bc0;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 360px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .course a:hover {
+            background-color: #5a96cc;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+    <div class="header">  
+        <span>Ana Sayfa</span>
+      </div>
+    <div class="teacher-name">
+        <h2>Doç. Dr. Mehmet Hilal Özcanhan</h2>
+        <div class="blue-line"></div>
+    </div>
+    <div class="courses">
+
+    </div>
+
+    <div class="menu">
+        <a href="/login.html" class="logout-button">Çıkış</a>
+    </div>
+
+
+
+    <script>
+        fetch('/courses')
+        .then(response => response.json())
+        .then(courses => {
+            const coursesContainer = document.querySelector('.courses');
+
+            // Loop through the courses and create HTML elements for each course
+            courses.forEach(course => {
+                const courseDiv = document.createElement('div');
+                courseDiv.classList.add('course');
+
+                const courseLink = document.createElement('a');
+                courseLink.href = `/course-details.html?courseId=${course.id}`;
+                courseLink.textContent = course.name;
+
+                courseDiv.appendChild(courseLink);
+                coursesContainer.appendChild(courseDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching courses:', error));
+    
+    </script>
+ </body>
+</html>
