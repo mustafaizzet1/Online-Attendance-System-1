@@ -309,12 +309,19 @@
 
   <div class="buttons" id="bottom-buttons">
     <button class="btn btn-list" id="studentListButton">Öğrenci Listesi</button>
+    
+
+
+
   </div>
+
+
 
   <div class="menu">
     <a href="/public/teacher-menu.html" class="logout-button">Geri</a>
   </div>
   <script>
+
 
     const authorizeButton = document.createElement('button');
     authorizeButton.classList.add("btn", "btn-yetkilendir");
@@ -324,10 +331,18 @@
     createQRCodeButton.classList.add("btn", "btn-qr");
     createQRCodeButton.textContent = "QR Kod Oluştur";
 
+    createQRCodeButton.addEventListener('click', function() {
+    // Set the location to the desired page URL
+    window.location.href = '/qrcode';
+});
+
 
     const bottomButtons = document.getElementById('bottom-buttons');
     bottomButtons.appendChild(authorizeButton);
     bottomButtons.appendChild(createQRCodeButton);
+
+
+  
 
     const theoryData = [
       { date: "2024-01-01" },
@@ -436,9 +451,11 @@
       });
       buttons.createQRCodeButton.addEventListener('click', () => {
         // Redirect to the absence list page for the specific date
-        window.location.href = `/public/Yoklama.html?courseId=${courseId}&date=${currentDate}`;
+        window.location.href = `/qrcode`;
       });
     }
+
+
 
     // Get a reference to the student list button
     const studentListButton = document.getElementById("studentListButton");
