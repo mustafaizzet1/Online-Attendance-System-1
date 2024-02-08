@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Yoklama Ayarlari</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+            justify-content: center;
+            display:block;
+            align-items: center;
+            background-image: url('images/background.jpeg');
+            background-repeat: repeat;
+            background-size: cover;
+            overflow: scroll;    
+        }   
+
+        .header {
+            background-color: #458bc0;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            }
+
+       .header span {
+            font-size: 24px;
+        }
+        .course-name {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .course-name h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .course-name .blue-line {
+            width: 70%;
+            height: 8px;
+            background-color: #458bc0;
+            margin: auto;
+            margin-top: 70px;
+            position: absolute;
+        }
+
+        .header span {
+            font-size: 24px;
+        }
+
+        .options-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-check-inline {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        .form-check input[type="checkbox"],
+        .form-check input[type="radio"] {
+            border-radius: 50%;
+        }
+
+        .form-group label {
+            margin-right: 10px;
+        }
+
+        .form-select {
+            width: auto;
+            display: inline-block;
+        }
+
+        .btn-custom {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 15px;
+            font-size: 16px;
+            background-color: #458bc0;
+            color: #fff;
+            transition: background-color 0.3s;
+            border: none;
+            width: 20%;
+        }
+
+        .btn-custom:hover {
+            background-color: #5a96cc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <span>Yoklama Ayarları</span>
+    </div>
+
+    <div class="course-name">
+        <h2>TEKNİK İNGİLİZCE</h2>
+        <div class="blue-line"></div>
+    </div>
+
+<div class="options-container">
+    <form>
+        <div class="form-group">
+            <label for="attendanceType">Ders Şekli:</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="attendanceType" id="faceToFaceRadio" checked>
+                <label class="form-check-label" for="faceToFaceRadio">
+                    Yüzyüze
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="attendanceType" id="onlineRadio">
+                <label class="form-check-label" for="onlineRadio">
+                    Online
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="attendanceMode">Ders Tipi:</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="attendanceMode" id="theoreticalRadio" checked>
+                <label class="form-check-label" for="theoreticalRadio">
+                    Teorik
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="attendanceMode" id="practicalRadio">
+                <label class="form-check-label" for="practicalRadio">
+                    Uygulama
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="blockLectureSelect">Blok Ders:</label>			
+            <select class="form-select" id="blockLectureSelect">
+                <option value="1">Blok 1</option>
+                <option value="2">Blok 2</option>
+                <option value="3">Blok 3</option>
+                <option value="4" selected>Blok 4</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="qrValidityPeriodSelect">QR Geçerlilik Süresi:</label>
+            <select class="form-select" id="qrValidityPeriodSelect">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="Süresiz">Süresiz</option>
+            </select>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-custom" onclick="redirectToAttendance()">Yoklama Oluştur</button>
+        <button type="button" class="btn btn-secondary btn-custom" onclick="cancel()">İptal</button>
+        
+    </form>
+</div>
+
+<!-- Bootstrap JS ve Popper.js (jQuery bağımlılığı için) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Font Awesome Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+<script>
+   
+   function redirectToAttendance() {
+        // Get the URL parameters and generate QR code data
+        const urlParams = new URLSearchParams(window.location.search);
+        console.log(window.location.search)
+        const courseId = urlParams.get('courseId');
+        const attendanceType = document.querySelector('input[name="attendanceType"]:checked').value;
+        const attendanceMode = document.querySelector('input[name="attendanceMode"]:checked').value;
+        const blockLecture = document.getElementById('blockLectureSelect').value;
+        const qrValidityPeriod = document.getElementById('qrValidityPeriodSelect').value;
+        console.log(courseId)
+        // Combine the parameters into a single string
+        const qrData = `${courseId},${attendanceType},${attendanceMode},${blockLecture},${qrValidityPeriod}`;
+        window.location.href= `qr-code-page.html?qrData=${encodeURIComponent(qrData)}`;
+    }
+
+    function cancel(){
+        window.history.back();
+    }
+</script>
+</body>
+</html>

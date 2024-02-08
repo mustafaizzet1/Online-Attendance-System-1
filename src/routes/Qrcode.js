@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const qr = require('qrcode');
 
-router.get('/', async (req, res) => {
+router.get('/getQR', async (req, res) => {
   try {
     // Generate a random text for the QR code
     const randomText = Math.random().toString(36).substring(7);
