@@ -17,7 +17,7 @@ exports.studentHomePage = (req, res) => {
     
     if (req.session.user) {
      
-        res.render('studentHomePage', { studentCourses: studentCourses });
+        res.render('HomePage', { studentCourses: studentCourses });
         
       } else {
         res.redirect('/');
