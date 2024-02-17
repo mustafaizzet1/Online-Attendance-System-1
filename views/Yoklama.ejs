@@ -196,7 +196,7 @@
         console.log(courseId)
         // Combine the parameters into a single string
         const qrData = `${courseId},${attendanceType},${attendanceMode},${blockLecture},${qrValidityPeriod}`;
-        window.location.href= `qr-code-page.html?qrData=${encodeURIComponent(qrData)}`;
+        window.location.href= `qrGenerator?qrData=${encodeURIComponent(qrData)}`;
     }
 
     function cancel(){
