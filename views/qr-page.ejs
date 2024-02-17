@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+  <style>
+    body {
+      background-image: url('C:/Users/Efe/Desktop/Sayfalar/deu_bg.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      margin: 150px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      /* İçeriği dikey hizalamak için */
+    }
+
+    .header {
+      background-color: #458bc0;
+      /* Şerit rengi */
+      color: #fff;
+      /* Metin rengi */
+      padding: 10px;
+      /* Şerit içindeki içeriğin kenar boşluğu */
+      text-align: center;
+      margin: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    .header i {
+      margin-right: 10px;
+      /* İkon ile metin arasındaki boşluk */
+    }
+
+    .header span {
+      font-size: 24px;
+      /* Ana Sayfa yazısının büyüklüğü */
+    }
+
+    .wrapper {
+      text-align: center;
+    }
+
+    #demo-content {
+      max-width: 90%;
+      margin: 0 auto;
+    }
+
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Başlat ve sıfırla butonları için özel stiller */
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      background-color: #458bc0;
+      text-decoration: none;
+      border: none;
+      border-radius: 50px;
+      text-align: center;
+      /* Yazının yatay hizalaması */
+
+      /* Butonun yüksekliğine göre dikey hizalama */
+      color: #fff;
+    }
+
+    .button:hover {
+      background-color: #5a96cc;
+    }
+
+
+    #sourceSelectPanel {
+      display: none;
+    }
+
+    @media only screen and (max-width: 600px) {
+
+      /* Mobil cihazlar için özel stiller */
+      #demo-content {
+        padding-top: 1em;
+      }
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+  <main class="wrapper">
+    <div class="header">
+      <span>QR Okut</span>
+    </div>
+    <div class="col-md-12 col-sm-12">
+      <section class="container" id="demo-content">
+
+        <div>
+          <a class="button" id="startButton">Başlat</a>
+          <a class="button" id="resetButton">Sıfırla</a>
+        </div>
+
+        <div>
+          <video id="video" width="300" height="200" style="border: 1px solid gray"></video>
+        </div>
+
+        <div id="sourceSelectPanel">
+          <label for="sourceSelect">Kamerayı Değiştir:</label>
+          <select id="sourceSelect" style="max-width:400px"></select>
+        </div>
+
+        <label>Sonuç:</label>
+        <pre><code id="result"></code></pre>
+      </section>
+    </div>
+  </main>
+
+  <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
+  <script type="text/javascript">
+    function decodeOnce(codeReader, selectedDeviceId) {
+      codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
+        console.log(result)
+        document.getElementById('result').textContent = result.text
+      }).catch((err) => {
+        console.error(err)
+        document.getElementById('result').textContent = err
+      })
+    }
+
+    window.addEventListener('load', function () {
+      let selectedDeviceId;
+      const codeReader = new ZXing.BrowserQRCodeReader()
+
+      codeReader.getVideoInputDevices()
+        .then((videoInputDevices) => {
+          const sourceSelect = document.getElementById('sourceSelect')
+          selectedDeviceId = videoInputDevices[0].deviceId
+          if (videoInputDevices.length >= 1) {
+            videoInputDevices.forEach((element) => {
+              const sourceOption = document.createElement('option')
+              sourceOption.text = element.label
+              sourceOption.value = element.deviceId
+              sourceSelect.appendChild(sourceOption)
+            })
+
+            sourceSelect.onchange = () => {
+              selectedDeviceId = sourceSelect.value;
+            };
+
+            const sourceSelectPanel = document.getElementById('sourceSelectPanel')
+            sourceSelectPanel.style.display = 'block'
+          }
+
+          document.getElementById('startButton').addEventListener('click', () => {
+            decodeOnce(codeReader, selectedDeviceId)
+            console.log(`Started decode from camera with id ${selectedDeviceId}`)
+          })
+
+          document.getElementById('resetButton').addEventListener('click', () => {
+            codeReader.reset()
+            document.getElementById('result').textContent = '';
+            console.log('Reset.')
+          })
+
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    })
+
+    function getGPSLocation() {
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          // Alınan GPS bilgileri ile işlem yap
+          compareGPSLocation(latitude, longitude);
+        }, error => {
+          console.error('GPS hatası:', error.message);
+        });
+      } else {
+        console.error('GPS desteklenmiyor.');
+      }
+    }
+
+    // Alınan GPS bilgilerini karşılaştırma işlemi
+    function compareGPSLocation(latitude, longitude) {
+      // Öğretmenin GPS bilgileri
+      const teacherLatitude = 38.3647744; // Örneğin New York'un enlemi
+      const teacherLongitude = 27.2105472; // Örneğin New York'un boylamı
+
+      // Öğrencinin GPS bilgileri
+      const studentLatitude = latitude;
+      const studentLongitude = longitude;
+
+      // Öğrencinin GPS bilgilerini öğretmenin GPS bilgileriyle karşılaştır
+      const distance = calculateDistance(studentLatitude, studentLongitude, teacherLatitude, teacherLongitude);
+
+      if (distance < 0.1) { // Örneğin 100 metrelik bir mesafe kabul edilir
+        document.getElementById('result').innerHTML = 'Yoklama alındı.' + studentLatitude + "|" + studentLongitude;
+      } else {
+        document.getElementById('result').innerHTML = 'Öğrenci yoklama alanı dışında.' + studentLatitude + "|" + studentLongitude;
+      }
+    }
+
+    // İki nokta arasındaki mesafeyi hesaplama
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371e3; // Yeryüzünün yarıçapı (metre cinsinden)
+      const φ1 = lat1 * Math.PI / 180;
+      const φ2 = lat2 * Math.PI / 180;
+      const Δφ = (lat2 - lat1) * Math.PI / 180;
+      const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+      const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) *
+        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      const distance = R * c;
+      return distance;
+
+    }
+
+  </script>
+
+</body>
+
+</html>

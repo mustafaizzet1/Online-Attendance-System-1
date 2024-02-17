@@ -318,7 +318,7 @@
 
 
   <div class="menu">
-    <a href="/public/teacher-menu.html" class="logout-button">Geri</a>
+    <a href="/teacher-menu" class="logout-button">Geri</a>
   </div>
   <script>
 
@@ -424,7 +424,7 @@
         // Add an event listener to the button to redirect to the absence list page
         viewAbsenceListButton.addEventListener('click', () => {
           // Redirect to the absence list page for the specific date
-          window.location.href = `/public/Yoklama-listesi.html?courseId=${courseId}&date=${item.date}`;
+          window.location.href = `/Yoklama-listesi?courseId=${courseId}&date=${item.date}`;
         });
 
         attachEventListeners({ authorizeButton, createQRCodeButton });
@@ -447,7 +447,7 @@
     function attachEventListeners(buttons) {
       buttons.authorizeButton.addEventListener('click', () => {
         // Redirect to the absence list page for the specific date
-        window.location.href = "/public/Yetkilendir.html";
+        window.location.href = "/Yetkilendir";
       });
       buttons.createQRCodeButton.addEventListener('click', () => {
         // Redirect to the absence list page for the specific date
@@ -463,7 +463,7 @@
     // Attach an event listener to the student list button
     studentListButton.addEventListener("click", () => {
       // Redirect the user to the student list page with the course ID parameter
-      window.location.href = `/public/student-list.html?courseId=${courseId}`;
+      window.location.href = `/student-list?courseId=${courseId}`;
       console.log("QWE")
     });
 

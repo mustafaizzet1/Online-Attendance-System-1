@@ -134,7 +134,7 @@
     </div>
 
     <div class="menu">
-        <a href="/login.html" class="logout-button">Çıkış</a>
+        <a href="/logout" class="logout-button">Çıkış</a>
     </div>
 
 
@@ -151,7 +151,7 @@
                 courseDiv.classList.add('course');
 
                 const courseLink = document.createElement('a');
-                courseLink.href = `/course-details.html?courseId=${course.id}`;
+                courseLink.href = `/course-details?courseId=${course.id}`;
                 courseLink.textContent = course.name;
 
                 courseDiv.appendChild(courseLink);

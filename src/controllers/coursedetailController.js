@@ -2,7 +2,7 @@
 exports.coursedetail = (req, res) => {
    
   
-        res.render('yoklama-listesi');
+        res.render('course-details');
         
     
 };

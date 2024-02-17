@@ -8,7 +8,7 @@ const router = express.Router();
 const qrController = require('../controllers/qrController');
 const { checkStudent} = require('../middlewares/AuthMiddleware');
 
-router.get('/qrcode', checkStudent, qrController.createdqr);
+router.get('/qr', checkStudent, qrController.qr);
 
 module.exports = router;  // Boşluklar kaldırıldı
 

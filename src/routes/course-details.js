@@ -2,8 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const coursedetailController = require('../controllers/coursedetailController');
-const { checkStudent } = require('../middlewares/AuthMiddleware');
+const { checkTeacher } = require('../middlewares/AuthMiddleware');
 
-router.get('/course-details',checkStudent,coursedetailController.coursedetail);
+router.get('/course-details',checkTeacher,coursedetailController.coursedetail);
 
 module.exports = router;  // Boşluklar kaldırıldı

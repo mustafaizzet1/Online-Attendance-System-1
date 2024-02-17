@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Home Page</title>
+    <style>
+        body {
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: #458bc0;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            width: 100%;            
+            box-sizing: border-box;
+        }
+
+        header span {
+            font-size: 24px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        li button {
+            font-size: 15px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            border: none;
+            background-color: #458bc0;
+            color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 20%;
+            border-radius: 15px;
+            transition: background-color 0.3s;
+        }
+
+        li button:hover {
+            background-color: #5a96cc;
+        }
+
+        .table-container {
+            width: 60%;
+            margin-top: 20px;
+            display: none;
+        }
+
+        table {
+            margin: auto;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            border-collapse: collapse;
+            width: 50%;
+            background-color: #ecf0f3;
+            border-radius: 15px;
+        }
+
+        table td,
+        table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #ddd;
+        }
+
+        table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #458bc0;
+            color: white;
+        }
+
+        caption {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .join-button {
+            margin-top: 20px;
+        }
+
+        button.join {
+            font-size: 15px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            border: none;
+            background-color: #458bc0;
+            color: #fff;
+            padding: 10px 10px 10px 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            border-radius: 15px;
+            transition: background-color 0.3s;
+        }
+
+        button.join:hover {
+            background-color: #5a96cc;
+        }
+
+        @media (max-width: 767px) {
+            .table-container {
+                width: 90%;
+            }
+
+            table,
+            ul {
+                width: 90%;
+            }
+
+            li button {
+                width: 70%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <span>Ana Sayfa</span>
+    </header>
+
+    <ul>
+        <% studentCourses.forEach(course=> { %>
+            <li>
+                <button onclick="showAttendances('<%= course.name %>')">
+                    <%= course.name %>
+                </button>
+            </li>
+            <% }); %>
+    </ul>
+
+    <% studentCourses.forEach(course=> { %>
+        <div class="table-container" id="<%= course.name %>_table_container">
+            <table id="<%= course.name %>_attendances">
+                <caption>
+                    <%= course.name %>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>Tarih</th>
+                        <th>Ders Tipi</th>
+                        <th>Katılım</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (course.attendances && course.attendances.length> 0) { %>
+                        <% course.attendances.forEach(attendance=> { %>
+                            <tr>
+                                <td>
+                                    <%= attendance.date %>
+                                </td>
+                                <td>
+                                    <%= attendance.type %>
+                                </td>
+                                <td>
+                                    <%= attendance.attended ? 'Var' : 'Yok' %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="3">Yoklama bilgisi bulunamadı.</td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <% }); %>
+
+            <div class="join-button">
+                <button class="join">Yoklamaya Katıl</button>
+            </div>
+
+            <script>
+                var currentTable = null;
+
+                function showAttendances(courseName) {
+                    if (currentTable !== null) {
+                        currentTable.style.display = 'none';
+                    }
+                    currentTable = document.getElementById(courseName + '_table_container');
+                    currentTable.style.display = 'block';
+                }
+
+                document.querySelector('.join-button button').addEventListener('click', function () {
+                    window.location.href = '/yoklama-sayfasi'; // Yönlendirilecek sayfa buraya yazılmalı
+                });
+            </script>
+</body>
+
+</html>

@@ -2,3 +2,5 @@
 /.env
 /package-lock.json
 /config
+/.vscode
+/src/config

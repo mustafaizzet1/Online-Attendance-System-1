@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const coursesController = require('../controllers/coursesController');
-
-router.get('/courses', coursesController.courses);
+const { checkTeacher } = require('../middlewares/AuthMiddleware');
+router.get('/courses',checkTeacher, coursesController.courses);
 
 module.exports = router;  // Boşluklar kaldırıldı

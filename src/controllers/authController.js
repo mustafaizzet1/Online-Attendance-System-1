@@ -34,6 +34,10 @@ exports.Auth = (req, res) => {
 
     // Kullanıcı bulundu ve rol belirlendi ise, oturumu başlat
     req.session.user = user;
+    
+    if (user.role=='deu')
+    res.redirect('/teacher-menu');
+    else if (user.role=='ogr')
     res.redirect('/home');
 };
 
