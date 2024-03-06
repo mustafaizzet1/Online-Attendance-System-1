@@ -18,7 +18,7 @@ exports.Auth = (req, res) => {
     const { username, password } = req.body;
     const email = username; // Kullanıcı adı yerine e-posta adresi kullanıyoruz
     const user = {};
-
+    user.name=username;
     // E-posta adresinin öğrenci veya öğretmen uzantısına göre kullanıcıyı belirle
     if (/^[\w-]+@ogr\.deu\.edu\.tr$/.test(email)) {
         user.role = 'ogr';
