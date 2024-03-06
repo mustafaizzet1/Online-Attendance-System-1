@@ -14,7 +14,51 @@
   <!-- Add any necessary styles or scripts -->
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
   <style>
+
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+            justify-content: center;
+            display:block;
+            align-items: center;
+            background-image: url('images/background.jpeg');
+            background-repeat: repeat;
+            background-size: cover;
+            overflow: scroll;    
+        }   
+
+        .header {
+            background-color: #458bc0;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            }
+
+       .header span {
+            font-size: 24px;
+        }
     /* Add this style to your existing styles in the <style> tag */
+      #showQRCodeBtn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    margin-top: 20px; /* Adjust the margin value as needed */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  /* Button hover effect */
+  #showQRCodeBtn:hover {
+    background-color: #0056b3;
+  }
+
+  /* Button hover effect */
+  
     #qrCodeDisplay {
       display: flex;
       flex-direction: column;
@@ -22,11 +66,7 @@
       margin-top: 20px;
     }
   
-    #qrCodeCanvas {
-      border: 2px solid #007bff; /* Border color for the QR code canvas */
-      margin-bottom: 0px;
-    }
-  
+ 
     #qrDisplay {
       text-align: center;
       margin-bottom: 10px;
@@ -40,16 +80,16 @@
 </head>
 
 <body>
-  <div class="header">
-    <h1 id="headerText"></h1>
-  </div>
-
+   <div class="header">
+        <span>QR CODE </span>
+    </div>
+  
   <div class="blue-line"></div>
 
   <div id="qrCodeDisplay">
-    <canvas id="qrCodeCanvas"></canvas>
     <div id="qrDisplay"></div>
     <div id="remainingTime"></div>
+    <button id="showQRCodeBtn" onclick="showQRText()">Show QR Code</button>
     <div id="qrcode"></div>
   </div>
 
@@ -64,12 +104,12 @@
 
     function updateQRCode(qrCodeDataURL, randomText) {
       const qrDisplay = document.getElementById('qrDisplay');
-      qrDisplay.innerHTML = `<img src="${qrCodeDataURL}" alt="QR Code" />`;
+      qrDisplay.innerHTML = `<img src="${qrCodeDataURL}" alt="QR Code" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" />`;
       const qrcode = document.getElementById('qrcode');
       qrcode.style.width = '128px';
       qrcode.style.height = '128px';
       qrcode.style.marginTop = '10px';
-      qrcode.textContent = `Text: ${randomText}`;
+      qrcode.textContent = `${randomText}`;
     }
 
     function updateRemainingTime(seconds) {
@@ -84,6 +124,7 @@
 
     function startUpdatingQRCode() {
       generateAndDisplayQRCode(); // Call initially
+      showQRText();
       timer = setInterval(function () {
         updateRemainingTime(seconds);
         seconds--;
@@ -96,7 +137,12 @@
         }
       }, 1000); // Update every second
     }
-
+    let buttonClicked=true;
+    function showQRText(){
+      const qrcode = document.getElementById('qrcode');
+      qrcode.style.display = buttonClicked ? 'none' : 'block';
+      buttonClicked = !buttonClicked; // Toggle the state
+    }
     // Start the process
     startUpdatingQRCode();
   </script>
@@ -104,3 +150,23 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
