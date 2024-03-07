@@ -24,7 +24,8 @@ const studentlist=require('./student-list');
 router.use(studentlist);
 const teachermenu=require('./lecturerHomePage');
 router.use(teachermenu);
-
+const helper=require('./helper');
+router.use(helper);
 
 // Tüm alt rotaları burada birleştirin
 router.use(authRoutes);

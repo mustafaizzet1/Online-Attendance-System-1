@@ -440,6 +440,7 @@
 
 
     // Example usage:
+    
     updateTableRows("theoryTable", theoryData);
     updateTableRows("practiceTable", practiceData);
 
@@ -451,7 +452,9 @@
       });
       buttons.createQRCodeButton.addEventListener('click', () => {
         // Redirect to the absence list page for the specific date
-        window.location.href = `/yoklama`;
+        const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get('courseId');
+        window.location.href = `/yoklama?courseId=${courseId}`;
       });
     }
 

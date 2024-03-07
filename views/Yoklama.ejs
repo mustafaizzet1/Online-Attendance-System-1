@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,24 +17,25 @@
             padding: 0;
             flex-direction: column;
             justify-content: center;
-            display:block;
+            display: block;
             align-items: center;
             background-image: url('background.jpeg');
             background-repeat: repeat;
             background-size: cover;
-            overflow: scroll;    
-        }   
+            overflow: scroll;
+        }
 
         .header {
             background-color: #458bc0;
             color: #fff;
             padding: 10px;
             text-align: center;
-            }
+        }
 
-       .header span {
+        .header span {
             font-size: 24px;
         }
+
         .course-name {
             display: flex;
             justify-content: center;
@@ -107,6 +109,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="header">
@@ -118,90 +121,107 @@
         <div class="blue-line"></div>
     </div>
 
-<div class="options-container">
-    <form>
-        <div class="form-group">
-            <label for="attendanceType">Ders Şekli:</label>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="attendanceType" id="faceToFaceRadio" checked>
-                <label class="form-check-label" for="faceToFaceRadio">
-                    Yüzyüze
-                </label>
+    <div class="options-container">
+        <form>
+            <div class="form-group">
+                <label for="attendanceType">Ders Şekli:</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="attendanceType" id="faceToFaceRadio" checked>
+                    <label class="form-check-label" for="faceToFaceRadio">
+                        Yüzyüze
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="attendanceType" id="onlineRadio">
+                    <label class="form-check-label" for="onlineRadio">
+                        Online
+                    </label>
+                </div>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="attendanceType" id="onlineRadio">
-                <label class="form-check-label" for="onlineRadio">
-                    Online
-                </label>
+
+            <div class="form-group">
+                <label for="attendanceMode">Ders Tipi:</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="attendanceMode" id="theoreticalRadio" checked>
+                    <label class="form-check-label" for="theoreticalRadio">
+                        Teorik
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="attendanceMode" id="practicalRadio">
+                    <label class="form-check-label" for="practicalRadio">
+                        Uygulama
+                    </label>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="attendanceMode">Ders Tipi:</label>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="attendanceMode" id="theoreticalRadio" checked>
-                <label class="form-check-label" for="theoreticalRadio">
-                    Teorik
-                </label>
+            <div class="form-group">
+                <label for="blockLectureSelect">Blok Ders:</label>
+                <select class="form-select" id="blockLectureSelect">
+                    <option value="1">Blok 1</option>
+                    <option value="2">Blok 2</option>
+                    <option value="3">Blok 3</option>
+                    <option value="4" selected>Blok 4</option>
+                </select>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="attendanceMode" id="practicalRadio">
-                <label class="form-check-label" for="practicalRadio">
-                    Uygulama
-                </label>
+
+            <div class="form-group">
+                <label for="qrValidityPeriodSelect">QR Geçerlilik Süresi:</label>
+                <select class="form-select" id="qrValidityPeriodSelect">
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="Süresiz">Süresiz</option>
+                </select>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="blockLectureSelect">Blok Ders:</label>			
-            <select class="form-select" id="blockLectureSelect">
-                <option value="1">Blok 1</option>
-                <option value="2">Blok 2</option>
-                <option value="3">Blok 3</option>
-                <option value="4" selected>Blok 4</option>
-            </select>
-        </div>
+            <button type="button" class="btn btn-primary btn-custom" onclick="redirectToAttendance()">Yoklama
+                Oluştur</button>
+            <button type="button" class="btn btn-secondary btn-custom" onclick="cancel()">İptal</button>
 
-        <div class="form-group">
-            <label for="qrValidityPeriodSelect">QR Geçerlilik Süresi:</label>
-            <select class="form-select" id="qrValidityPeriodSelect">
-                <option value="5" selected>5</option>
-                <option value="10">10</option>
-                <option value="Süresiz">Süresiz</option>
-            </select>
-        </div>
+        </form>
+    </div>
 
-        <button type="button" class="btn btn-primary btn-custom" onclick="redirectToAttendance()">Yoklama Oluştur</button>
-        <button type="button" class="btn btn-secondary btn-custom" onclick="cancel()">İptal</button>
-        
-    </form>
-</div>
+    <!-- Bootstrap JS ve Popper.js (jQuery bağımlılığı için) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <script>
 
-<!-- Bootstrap JS ve Popper.js (jQuery bağımlılığı için) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Font Awesome Script -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
-<script>
-   
-   function redirectToAttendance() {
-        // Get the URL parameters and generate QR code data
-        const urlParams = new URLSearchParams(window.location.search);
-        console.log(window.location.search)
-        const courseId = urlParams.get('courseId');
-        const attendanceType = document.querySelector('input[name="attendanceType"]:checked').value;
-        const attendanceMode = document.querySelector('input[name="attendanceMode"]:checked').value;
-        const blockLecture = document.getElementById('blockLectureSelect').value;
-        const qrValidityPeriod = document.getElementById('qrValidityPeriodSelect').value;
-        console.log(courseId)
-        // Combine the parameters into a single string
-        const qrData = `${courseId},${attendanceType},${attendanceMode},${blockLecture},${qrValidityPeriod}`;
-        window.location.href= `qrGenerator?qrData=${encodeURIComponent(qrData)}`;
-    }
+        function redirectToAttendance() {
+            // Get the URL parameters and generate QR code data
+            const urlParams = new URLSearchParams(window.location.search);
+            console.log(window.location.search)
+            const courseId = urlParams.get('courseId');
+            fetch('/helper/yoklamabaslat', {
+                method: 'POST', // HTTP metodunu POST olarak belirle
+                headers: {
+                    'Content-Type': 'application/json', // Gönderilen veri tipini belirle
+                },
+                body: JSON.stringify({ courseId: courseId }) // Gönderilecek veriyi JSON formatına çevir
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('API isteği başarısız.');
+                    }
+                    return response.json(); // JSON olarak cevabı dön
+                })
+                .then(data => {
+                    // Cevap başarılı, QR kod sayfasına yönlendir
+                    window.location.href = `qrGenerator?qrData=${encodeURIComponent(data.code)}`;
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
 
-    function cancel(){
-        window.history.back();
-    }
-</script>
+
+
+        }
+
+        function cancel() {
+            window.history.back();
+        }
+    </script>
 </body>
+
 </html>

@@ -55,7 +55,10 @@
 
   <script>
     const qrCodeDataURL = '<%= qrCodeDataURL %>';
-    const randomText = '<%= randomText %>';
+    const urlParams = new URLSearchParams(window.location.search);
+            console.log(window.location.search)
+            const qrData = urlParams.get('qrData');
+    const randomText = qrData;
     function generateAndDisplayQRCode() {
       // Use the variables passed from the server
       

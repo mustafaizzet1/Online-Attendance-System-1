@@ -148,33 +148,48 @@
         <div class="btn-custom-container">
             <button type="button" class="btn btn-secondary btn-custom" onclick="goBack()">Geri</button>
         </div>
-        </div>
-        
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Dummy student data
-            const students = [
-                { number: '2019510096', name: 'Şükrü Berk Öztaş', courseAttendance: '80%', labAttendance: '75%' },
-                { number: '2020510031', name: 'Tyler Durden', courseAttendance: '85%', labAttendance: '80%' },
-                { number: '2020510081', name: 'Patrick Bateman', courseAttendance: '75%', labAttendance: '70%' },
-                { number: '2020510069', name: 'Kanye West', courseAttendance: '70%', labAttendance: '90%' }
-                // Add more dummy students as needed
-            ];
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('courseId');
 
-            // Reference to the table body
-            const tbody = document.querySelector('#studentTable tbody');
 
-            // Add dummy students to the table
-            students.forEach(student => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${student.number}</td>
+            // API'ye istek yap
+            fetch(`/helper/courses/${courseId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('API isteği başarısız.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+
+                    console.log(data)
+
+                    // Reference to the table body
+                    const tbody = document.querySelector('#studentTable tbody');
+
+                    // Add dummy students to tFhe table
+                    data.forEach(student => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                    <td>${student.id}</td>
                     <td>${student.name}</td>
                     <td>${student.courseAttendance}</td>
                     <td>${student.labAttendance}</td>
                 `;
-                tbody.appendChild(row);
-            });
+                        tbody.appendChild(row);
+                    });
+
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+
+
+
         });
 
         document.addEventListener("DOMContentLoaded", () => {

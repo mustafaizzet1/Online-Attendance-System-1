@@ -24,12 +24,12 @@
 
     .header {
       font-family: Verdana, Geneva, Tahoma, sans-serif;
-            background-color: #458bc0;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-            width: 100%;            
-            box-sizing: border-box;
+      background-color: #458bc0;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .header span {
@@ -156,12 +156,29 @@
     function submitSessionCode() {
       // Oturum Kodu Gir formunu submit et
       var sessionCodeValue = document.getElementById("sessionCode").value;
-      // Burada sessionCodeValue değişkenini kullanarak istediğiniz işlemleri gerçekleştirebilirsiniz
-      // Örneğin, bu değeri başka bir sayfaya göndermek için bir AJAX çağrısı yapabilirsiniz
-      console.log("Oturum Kodu: " + sessionCodeValue);
+      fetch('/helper/yoklamakatil', {
+        method: 'POST', // HTTP metodunu POST olarak belirle
+        headers: {
+          'Content-Type': 'application/json', // Gönderilen veri tipini belirle
+        },
+        body: JSON.stringify({ code: document.getElementById("sessionCode").value }) // Gönderilecek veriyi JSON formatına çevir
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('API isteği başarısız.');
+          }
+          return response.json(); // JSON olarak cevabı dön
+        })
+        .then(data => {
+          // Cevap başarılı, QR kod sayfasına yönlendir
+         alert("başarılı")
+        })
+        .catch(error => {
+          console.error('Hata:', error);
+        });
     }
 
-   
+
   </script>
 
   <!-- Include the jsQR library for QR code decoding -->

@@ -4,12 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
+const cors = require('cors');
 
 const bodyParser = require('body-parser');
 const routes = require('./src/routes/index');
 
 var db = require('./src/models/');
 require('dotenv').config();
+
+
 
 
 var app = express();
@@ -34,7 +37,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-
+app.use(cors());
 //silinebilir bölge}
 app.use('/', routes);
 
