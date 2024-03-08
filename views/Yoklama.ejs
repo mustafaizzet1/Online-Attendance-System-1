@@ -19,7 +19,7 @@
             justify-content: center;
             display: block;
             align-items: center;
-            background-image: url('background.jpeg');
+            background-image: url('background.png');
             background-repeat: repeat;
             background-size: cover;
             overflow: scroll;
@@ -193,12 +193,22 @@
             const urlParams = new URLSearchParams(window.location.search);
             console.log(window.location.search)
             const courseId = urlParams.get('courseId');
+            const theoreticalRadio = document.getElementById('theoreticalRadio');
+            const practicalRadio = document.getElementById('practicalRadio');
+
+            // Seçili olan ders tipini kontrol et ve göster
+            let selectedCourseType;
+            if (theoreticalRadio.checked) {
+                selectedCourseType = 'Teorik';
+            } else if (practicalRadio.checked) {
+                selectedCourseType = 'Uygulama';
+            } 
             fetch('/helper/yoklamabaslat', {
                 method: 'POST', // HTTP metodunu POST olarak belirle
                 headers: {
                     'Content-Type': 'application/json', // Gönderilen veri tipini belirle
                 },
-                body: JSON.stringify({ courseId: courseId }) // Gönderilecek veriyi JSON formatına çevir
+                body: JSON.stringify({ courseId: courseId,type:selectedCourseType }) // Gönderilecek veriyi JSON formatına çevir
             })
                 .then(response => {
                     if (!response.ok) {

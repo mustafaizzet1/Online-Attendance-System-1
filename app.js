@@ -1,21 +1,25 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const session = require('express-session');
 const cors = require('cors');
-
 const bodyParser = require('body-parser');
 const routes = require('./src/routes/index');
-
+const fs = require('fs'); // Dosya sistemi modülünü dahil edin
+const https = require('https'); // HTTPS modülünü dahil edin
 var db = require('./src/models/');
 require('dotenv').config();
 
-
-
-
 var app = express();
+
+// HTTPS sunucusu için sertifika ve anahtar dosyalarının yollarını belirleyin
+const httpsOptions = {
+  key: fs.readFileSync(path.join(__dirname, 'localhost+2-key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'localhost+2.pem'))
+};
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +31,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//silinebilir bölge{
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -38,11 +41,9 @@ app.use(session({
   saveUninitialized: true
 }));
 app.use(cors());
-//silinebilir bölge}
 app.use('/', routes);
 
-
-//Connection to database
+// Veritabanı bağlantısını kontrol edin
 db.sequelize.authenticate()
   .then(() => {
     console.log('Database connection successful.');
@@ -50,30 +51,19 @@ db.sequelize.authenticate()
   .catch(err => {
     console.error('Database connection unsuccessful.:', err);
   });
-if (process.env.NODE_ENV !== 'production') {
-  db.sequelize.sync().then(() => {
-    console.log("Veritabanı senkronizasyonu tamamlandı.");
-  });
-}
-
-app.listen(3001, () => {
-  console.log("Server running on port 3001");
+//ip değişince sertifkayı tekrar değiştir mkcert localhost myapp.local (mevcut ip)
+// HTTPS sunucusunu oluştur ve dinlemeye başla
+https.createServer(httpsOptions, app).listen(3001, '192.168.82.11', () => {
+  console.log("HTTPS server running on port 3001");
 });
 
-
-
-// catch 404 and forward to error handler
+// 404 ve diğer hataları yönetme
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
-// error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });

@@ -7,5 +7,6 @@ const { checkTeacher } = require('../middlewares/AuthMiddleware');
 router.get('/helper/courses/:id',checkTeacher, helperController.helper);
 router.post('/helper/yoklamakatil',helperController.joinAttendance);
 router.post('/helper/yoklamabaslat',helperController.startAttendance);
-router.get('/baba/:id',helperController.yoklamasaati);
+router.get('/helper/:courseId',helperController.yoklamaSaatleriListesi);
+router.get('/helper/liste/:courseId/:date',helperController.yoklamaListesi);
 module.exports = router;  // Boşluklar kaldırıldı

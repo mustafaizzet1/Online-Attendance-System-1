@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,28 +19,29 @@
             padding: 0;
             flex-direction: column;
             justify-content: center;
-            display:block;
+            display: block;
             align-items: center;
-            background-image: url('images/background.jpeg');
+            background-image: url('background.png');
             background-repeat: repeat;
             background-size: cover;
-            overflow: scroll;    
-        }   
+            overflow: scroll;
+        }
 
         .header {
             background-color: #458bc0;
             color: #fff;
             padding: 10px;
             text-align: center;
-            }
+        }
 
-       .header span {
+        .header span {
             font-size: 24px;
         }
 
         .header span {
             font-size: 24px;
         }
+
         .course-name {
             display: flex;
             justify-content: center;
@@ -63,6 +65,7 @@
             margin-top: 70px;
             position: absolute;
         }
+
         .container {
             text-align: center;
             margin-top: 20px;
@@ -77,7 +80,8 @@
             border: 2px solid #458bc0;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #458bc0;
             padding: 8px;
             text-align: left;
@@ -105,10 +109,9 @@
         .container button:hover {
             background-color: #5a96cc;
         }
-
-    
     </style>
 </head>
+
 <body>
     <div class="header">
         <span>Aktif Yoklama Listesi</span>
@@ -136,50 +139,59 @@
 
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             // Dummy student data
             const students = [
-                { number: '2019510096', name: 'Şükrü Berk Öztaş', attendance: true},
-                { number: '2020510031', name: 'Tyler Durden', attendance: false },
-                { number: '2020510081', name: 'Patrick Bateman', attendance: true },
-                { number: '2019510096', name: 'Şükrü Berk Öztaş', attendance: true},
-                { number: '2020510031', name: 'Tyler Durden', attendance: false },
-                { number: '2020510081', name: 'Patrick Bateman', attendance: true },
-                { number: '2019510096', name: 'Şükrü Berk Öztaş', attendance: true},
-                { number: '2020510031', name: 'Tyler Durden', attendance: false },
-                { number: '2020510081', name: 'Patrick Bateman', attendance: true },
-                { number: '2019510096', name: 'Şükrü Berk Öztaş', attendance: true},
-                { number: '2020510031', name: 'Tyler Durden', attendance: false },
-                { number: '2020510081', name: 'Patrick Bateman', attendance: true },
-                { number: '2019510096', name: 'Şükrü Berk Öztaş', attendance: true},
-                { number: '2020510031', name: 'Tyler Durden', attendance: false },
-                { number: '2020510081', name: 'Patrick Bateman', attendance: true },
-                { number: '2020510069', name: 'Kanye West', attendance: true}
+
                 // Add more dummy students as needed
             ];
+            const urlParams = new URLSearchParams(window.location.search);
+            var date = urlParams.get('date');
+            date = decodeURIComponent(date);
+            const courseId = urlParams.get('courseId');
+            fetch(`/helper/liste/${courseId}/${date}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Cevabı JSON formatına çevir
+                })
+                .then(data => {
+                    data.forEach(e => {
+                        students.push({ number: e.id, name: e.name, attendance: e.attendance })
+                    })
 
-            // Reference to the table body
-            const tbody = document.querySelector('#studentTable tbody');
+                    // Reference to the table body
+                    const tbody = document.querySelector('#studentTable tbody');
 
-            // Add dummy students to the table
-            students.forEach(student => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${student.number}</td>
-                    <td>${student.name}</td>
-                    <td>${student.attendance}</td>
+                    // Add dummy students to the table
+                    students.forEach(student => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+        <td>${student.number}</td>
+        <td>${student.name}</td>
+        <td>${student.attendance}</td>
 
-                `;
-                tbody.appendChild(row);
-            });
+    `;
+                        tbody.appendChild(row);
+                    });
+                    console.log(data);
+                    // Örneğin, gelen veriyi bir tabloya veya listeye ekleyebilirsiniz
+                    // Bu kısımda, 'data' üzerinde istediğiniz işlemleri gerçekleştirebilirsiniz
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+
         });
 
         function goBack() {
             window.history.back();
         }
 
-        
+
     </script>
 
 </body>
+
 </html>

@@ -15,7 +15,7 @@
       justify-content: center;
       display: block;
       align-items: center;
-      background-image: url('images/background.jpeg');
+      background-image: url('background.png');
       background-repeat: repeat;
       background-size: cover;
       overflow: scroll;
@@ -309,7 +309,7 @@
 
   <div class="buttons" id="bottom-buttons">
     <button class="btn btn-list" id="studentListButton">Öğrenci Listesi</button>
-    
+
 
 
 
@@ -331,10 +331,10 @@
     createQRCodeButton.classList.add("btn", "btn-qr");
     createQRCodeButton.textContent = "QR Kod Oluştur";
 
-    createQRCodeButton.addEventListener('click', function() {
-    // Set the location to the desired page URL
-    window.location.href = '/qrcode';
-});
+    createQRCodeButton.addEventListener('click', function () {
+      // Set the location to the desired page URL
+      window.location.href = `/yoklama?courseId=${courseId}`;
+    });
 
 
     const bottomButtons = document.getElementById('bottom-buttons');
@@ -342,31 +342,14 @@
     bottomButtons.appendChild(createQRCodeButton);
 
 
-  
+
 
     const theoryData = [
-      { date: "2024-01-01" },
-      { date: "2024-01-08" },
-      { date: "2024-01-15" },
-      { date: "2024-01-01" },
-      { date: "2024-01-08" },
-      { date: "2024-01-15" },
-      { date: "2024-01-01" },
-      { date: "2024-01-08" },
-      { date: "2024-01-15" },
-      { date: "2024-01-01" },
-      { date: "2024-01-08" },
-      { date: "2024-01-15" },
-      { date: "2024-01-01" },
-      { date: "2024-01-08" },
-      { date: "2024-01-15" },
-      { date: "2024-01-23" }
+
     ];
 
     const practiceData = [
-      { date: "2024-01-02" },
-      { date: "2024-01-09" },
-      { date: "2024-01-16" }
+
     ];
 
 
@@ -400,6 +383,28 @@
     }
     // Function to update the table rows with the given array of QR code creation statuses
 
+    document.addEventListener("DOMContentLoaded", function () {
+      // Retrieve the course ID from the URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const courseId = urlParams.get('courseId');
+
+      fetch(`/helper/${courseId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Burada 'data' içindeki 'theoryData' ve 'practiceData' kullanılabilir
+          updateTableRows("theoryTable", data.teorik);
+          updateTableRows("practiceTable", data.uygulama);
+        })
+        .catch(error => {
+          console.error('There has been a problem with your fetch operation:', error);
+        });
+    });
+
     function updateTableRows(tableId, data) {
       const tableBody = document.getElementById(tableId);
 
@@ -408,41 +413,36 @@
         tableBody.removeChild(tableBody.firstChild);
       }
 
-      // Add new rows based on the QR code creation statuses
+      // Add new rows based on the data
       data.forEach(item => {
         const row = document.createElement("tr");
         const dateCell = document.createElement("td");
+
+        var dateObj = new Date(item);
+
+        // Date objesini YYYY-MM-DD formatına dönüştür
+        var formattedDate = dateObj.toISOString().split('T')[0];
+        dateCell.textContent = formattedDate;
+
         const viewAbsenceListCell = document.createElement("td");
-
-        dateCell.textContent = item.date;
-
-        // Create the "View Absence List" button
         const viewAbsenceListButton = document.createElement("button");
         viewAbsenceListButton.classList.add("btn", "btn-yoklama-goruntule");
         viewAbsenceListButton.textContent = "Yoklama Listesini Gör";
-
-        // Add an event listener to the button to redirect to the absence list page
         viewAbsenceListButton.addEventListener('click', () => {
-          // Redirect to the absence list page for the specific date
-          window.location.href = `/Yoklama-listesi?courseId=${courseId}&date=${item.date}`;
+          
+          window.location.href = `/Yoklama-listesi?courseId=${courseId}&date=${new Date(item).getTime()}`;
         });
 
-        attachEventListeners({ authorizeButton, createQRCodeButton });
-
         viewAbsenceListCell.appendChild(viewAbsenceListButton);
-
         row.appendChild(dateCell);
         row.appendChild(viewAbsenceListCell);
-
         tableBody.appendChild(row);
       });
     }
 
 
     // Example usage:
-    
-    updateTableRows("theoryTable", theoryData);
-    updateTableRows("practiceTable", practiceData);
+
 
     // Function to attach event listeners to the buttons
     function attachEventListeners(buttons) {
@@ -453,7 +453,7 @@
       buttons.createQRCodeButton.addEventListener('click', () => {
         // Redirect to the absence list page for the specific date
         const urlParams = new URLSearchParams(window.location.search);
-    const courseId = urlParams.get('courseId');
+        const courseId = urlParams.get('courseId');
         window.location.href = `/yoklama?courseId=${courseId}`;
       });
     }
