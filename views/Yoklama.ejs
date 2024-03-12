@@ -188,45 +188,64 @@
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
     <script>
 
-        function redirectToAttendance() {
-            // Get the URL parameters and generate QR code data
-            const urlParams = new URLSearchParams(window.location.search);
-            console.log(window.location.search)
-            const courseId = urlParams.get('courseId');
-            const theoreticalRadio = document.getElementById('theoreticalRadio');
-            const practicalRadio = document.getElementById('practicalRadio');
+function redirectToAttendance() {
+    // Değişkenleri `let` ile tanımlayarak değerlerinin değiştirilebilir olmasını sağlayın
+    let latitude = 0;
+    let longitude = 0;
 
-            // Seçili olan ders tipini kontrol et ve göster
-            let selectedCourseType;
-            if (theoreticalRadio.checked) {
-                selectedCourseType = 'Teorik';
-            } else if (practicalRadio.checked) {
-                selectedCourseType = 'Uygulama';
-            } 
-            fetch('/helper/yoklamabaslat', {
-                method: 'POST', // HTTP metodunu POST olarak belirle
-                headers: {
-                    'Content-Type': 'application/json', // Gönderilen veri tipini belirle
-                },
-                body: JSON.stringify({ courseId: courseId,type:selectedCourseType }) // Gönderilecek veriyi JSON formatına çevir
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('API isteği başarısız.');
-                    }
-                    return response.json(); // JSON olarak cevabı dön
-                })
-                .then(data => {
-                    // Cevap başarılı, QR kod sayfasına yönlendir
-                    window.location.href = `qrGenerator?qrData=${encodeURIComponent(data.code)}`;
-                })
-                .catch(error => {
-                    console.error('Hata:', error);
-                });
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
 
+            // GPS okunduktan sonra çalışacak kısmı buraya taşıyın
+            sendAttendanceInfo(latitude, longitude);
+        }, error => {
+            console.error('GPS hatası:', error.message);
+        });
+    } else {
+        console.error('GPS desteklenmiyor.');
+    }
+}
 
+function sendAttendanceInfo(latitude, longitude) {
+    // URL parametrelerini ve QR kod verisini al
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log(window.location.search);
+    const courseId = urlParams.get('courseId');
+    const theoreticalRadio = document.getElementById('theoreticalRadio');
+    const practicalRadio = document.getElementById('practicalRadio');
 
+    // Seçili olan ders tipini kontrol et ve belirle
+    let selectedCourseType = '';
+    if (theoreticalRadio.checked) {
+        selectedCourseType = 'Teorik';
+    } else if (practicalRadio.checked) {
+        selectedCourseType = 'Uygulama';
+    }
+
+    // Fetch isteğini burada yap
+    fetch('/helper/yoklamabaslat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ courseId, type: selectedCourseType, longitude, latitude })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('API isteği başarısız.');
         }
+        return response.json();
+    })
+    .then(data => {
+        // Cevap başarılı, QR kod sayfasına yönlendir
+        window.location.href = `qrGenerator?qrData=${encodeURIComponent(data.code)}`;
+    })
+    .catch(error => {
+        console.error('Hata:', error);
+    });
+}
 
         function cancel() {
             window.history.back();

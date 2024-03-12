@@ -53,7 +53,7 @@ db.sequelize.authenticate()
   });
 //ip değişince sertifkayı tekrar değiştir mkcert localhost myapp.local (mevcut ip)
 // HTTPS sunucusunu oluştur ve dinlemeye başla
-https.createServer(httpsOptions, app).listen(3001, '192.168.82.11', () => {
+https.createServer(httpsOptions, app).listen(3001, () => {
   console.log("HTTPS server running on port 3001");
 });
 

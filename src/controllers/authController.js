@@ -11,7 +11,10 @@ const users = [
     { username: '1@deu.edu.tr', password: '123456' },
     { username: '2@deu.edu.tr', password: '123456' },
     { username: '3@ogr.deu.edu.tr', password: '123456' },
-    { username: '4@ogr.deu.edu.tr', password: '123456' }
+    { username: '4@ogr.deu.edu.tr', password: '123456' },
+    { username: '5@ogr.deu.edu.tr', password: '123456' },
+    { username: '6@ogr.deu.edu.tr', password: '123456' },
+    { username: '7@ogr.deu.edu.tr', password: '123456' }
 ];
 
 exports.Auth = (req, res) => {

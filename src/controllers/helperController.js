@@ -1,11 +1,17 @@
 const studentLists = {
     "1206": [
         { id: '3', name: 'Şükrü Berk Öztaş', courseAttendance: '80%', labAttendance: '75%' },
-        { id: '4', name: 'Tyler Durden', courseAttendance: '85%', labAttendance: '80%' }
+        { id: '4', name: 'Mustafa İzzet Yumuşak', courseAttendance: '85%', labAttendance: '80%' },
+        { id: '5', name: 'Ömer Faruk Keskin', courseAttendance: '85%', labAttendance: '80%' },
+        { id: '6', name: 'Mustafa Efe Demir', courseAttendance: '85%', labAttendance: '80%' },
+        { id: '7', name: 'Ramazan Hakan Cankul', courseAttendance: '85%', labAttendance: '80%' }
     ],
     "4436": [
-        { id: '3', name: 'Patrick Bateman', courseAttendance: '75%', labAttendance: '70%' },
-        { id: '6', name: 'Kanye West', courseAttendance: '70%', labAttendance: '90%' }
+        { id: '3', name: 'Şükrü Berk Öztaş', courseAttendance: '80%', labAttendance: '75%' },
+        { id: '4', name: 'Mustafa İzzet Yumuşak', courseAttendance: '85%', labAttendance: '80%' },
+        { id: '5', name: 'Ömer Faruk Keskin', courseAttendance: '85%', labAttendance: '80%' },
+        { id: '6', name: 'Mustafa Efe Demir', courseAttendance: '85%', labAttendance: '80%' },
+        { id: '7', name: 'Ramazan Hakan Cankul', courseAttendance: '85%', labAttendance: '80%' }
     ]
 };
 
@@ -15,19 +21,67 @@ var activeAttendances = {
     /*"csa4": { courseId: "1206", sessionId: 1, startTime: "5665465" }*/
 };
 var attendanceRecords = {
-    /*"1206": {
+    "1206": {
 
-        "1231316":
-            ,
-            [
+        'Fri Mar 06 2024 12:23:09 GMT+0300 (GMT+03:00)': {
+            type: 'Teorik', participants: [
+
                 { id: '3', name: 'Şükrü Berk Öztaş' },
-                { id: '4', name: 'Şükrü asdasdBerk Öztaş' }
+                { id: '4', name: 'Mustafa İzzet Yumuşak' },
+                { id: '5', name: 'Ömer Faruk Keskin' },
+                { id: '6', name: 'Mustafa Efe Demir' }
             ]
-        ,
-        "132321": []
+        },
+        'Fri Mar 03 2024 12:23:09 GMT+0300 (GMT+03:00)': {
+            type: 'Teorik', participants: [
 
-    },
-    "4436": {}*/
+                { id: '3', name: 'Şükrü Berk Öztaş' },
+                { id: '4', name: 'Mustafa İzzet Yumuşak' },
+                { id: '5', name: 'Ömer Faruk Keskin' },
+                { id: '6', name: 'Mustafa Efe Demir' }
+            ]
+        },
+        'Fri Mar 01 2024 12:23:09 GMT+0300 (GMT+03:00)': {
+            type: 'Uygulama', participants: [
+
+                { id: '3', name: 'Şükrü Berk Öztaş' },
+                { id: '4', name: 'Mustafa İzzet Yumuşak' },
+                { id: '5', name: 'Ömer Faruk Keskin' },
+                { id: '6', name: 'Mustafa Efe Demir' }
+            ]
+        }
+
+    }, "4436": {
+
+        'Fri Mar 06 2024 12:23:09 GMT+0300 (GMT+03:00)': {
+            type: 'Teorik', participants: [
+
+                { id: '3', name: 'Şükrü Berk Öztaş' },
+                { id: '4', name: 'Mustafa İzzet Yumuşak' },
+                { id: '5', name: 'Ömer Faruk Keskin' },
+                { id: '6', name: 'Mustafa Efe Demir' }
+            ]
+        },
+        'Fri Mar 03 2024 12:23:09 GMT+0300 (GMT+03:00)': {
+            type: 'Uygulama', participants: [
+
+                { id: '3', name: 'Şükrü Berk Öztaş' },
+                { id: '4', name: 'Mustafa İzzet Yumuşak' },
+                { id: '5', name: 'Ömer Faruk Keskin' },
+                { id: '6', name: 'Mustafa Efe Demir' }
+            ]
+        },
+        'Fri Mar 01 2024 12:23:09 GMT+0300 (GMT+03:00)': {
+            type: 'Teorik', participants: [
+
+                { id: '3', name: 'Şükrü Berk Öztaş' },
+                { id: '4', name: 'Mustafa İzzet Yumuşak' },
+                { id: '5', name: 'Ömer Faruk Keskin' },
+                { id: '6', name: 'Mustafa Efe Demir' }
+            ]
+        }
+
+    }
 
 };
 
@@ -55,13 +109,15 @@ function generateRandomCode(length) {
     return result;
 };
 exports.startAttendance = (req, res) => {
-    const { courseId, type } = req.body; // POST ile gönderilen kurs ID'si ve ders tipi
+    const { courseId, type, latitude, longitude } = req.body; // POST ile gönderilen kurs ID'si ve ders tipi
+
+    console.log(latitude, "--", longitude)
     const startTime = new Date(); // Yoklama başlangıç zamanı
     const endTime = new Date(startTime.getTime() + 5 * 60000); // 5 dakika sonrası
 
     const randomCode = generateRandomCode(4); // Rastgele 4 haneli kod üret
     // `code` ekleniyor ve `type` da eklenmiş oluyor
-    activeAttendances[randomCode] = { courseId:courseId, endTime:endTime,startTime:startTime, code: randomCode, type };
+    activeAttendances[randomCode] = { courseId: courseId, endTime: endTime, startTime: startTime, code: randomCode, type };
 
     // `attendanceRecords` için courseId kontrolü ve yeni yoklama kaydı ekleme
     if (!attendanceRecords[courseId]) {
@@ -82,8 +138,8 @@ exports.startAttendance = (req, res) => {
         attendanceRecords[courseId][attendanceStartTime].type = type;
     }
 
-    console.log(activeAttendances);
-  
+
+
 
     res.status(200).json({ message: 'Yoklama başlatıldı', code: randomCode });
 };
@@ -98,7 +154,7 @@ exports.joinAttendance = (req, res) => {
 
     // Kodu kullanarak aktif yoklamayı bul
     const attendanceEntry = activeAttendances[code];
-    console.log(attendanceEntry,"---",code)
+    console.log(attendanceEntry, "---", code)
 
     if (!attendanceEntry) {
         return res.status(404).json({ message: 'Bu kod ile ilişkilendirilmiş bir yoklama bulunamadı.' });
@@ -116,7 +172,7 @@ exports.joinAttendance = (req, res) => {
         return res.status(404).json({ message: 'Öğrenci bu kurs için kayıtlı değil.' });
     }
 
-    const attendanceDate =attendanceEntry.startTime ;
+    const attendanceDate = attendanceEntry.startTime;
 
     console.log(attendanceDate)
     if (!attendanceRecords[courseId]) {
@@ -145,8 +201,8 @@ exports.yoklamaSaatleriListesi = (req, res) => {
 
     // Dersin yoklama tarihleri ve saatleri varsa, detaylarını döndür
     if (attendanceDates) {
-        
-       
+
+
 
         Object.keys(attendanceDates).forEach(date => {
             const attendanceForDate = attendanceDates[date];
@@ -171,13 +227,13 @@ exports.yoklamaSaatleriListesi = (req, res) => {
 
 exports.yoklamaListesi = (req, res) => {
     const { courseId } = req.params;
-    const dates =parseInt(req.params.date);
+    const dates = parseInt(req.params.date);
     var date = new Date(dates);
-   
- 
+
+
     const attendanceList = attendanceRecords[courseId] && attendanceRecords[courseId][date];
-    console.log(date,attendanceList,attendanceRecords[courseId])
-   
+    console.log(date, attendanceList, attendanceRecords[courseId])
+
     if (attendanceList) {
         let responseDetails = studentLists[courseId].map(student => {
             // Öğrencinin yoklamada olup olmadığını kontrol et
@@ -186,7 +242,7 @@ exports.yoklamaListesi = (req, res) => {
         });
 
         res.json(responseDetails);
-        console.log("--",responseDetails);
+        console.log("--", responseDetails);
     } else {
         res.status(404).json({ message: `Bu courseId (${courseId}) ve tarih (${date}) için liste bulunamadı.` });
     }
