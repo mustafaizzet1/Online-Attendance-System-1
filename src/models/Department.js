@@ -25,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Department.associate = (models) => {
+    Department.hasMany(models.Lectureinfo,{
+      foreignKey:'OGR_BIRIM_KODU'
+    });
 
   };
 

@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Branch = sequelize.define("Branch", {
-    OGR_BIRIM_KODU: {
+    SUBE_KODU: {
       type: DataTypes.INTEGER,
       primaryKey:true,
       allowNull: false,
     },
-    SUBE_KODU: {
+    OGR_BIRIM_KODU: {
       type: DataTypes.INTEGER,
       primaryKey:true,
       allowNull: false,
@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Branch.associate = (models) => {
+    Branch.hasMany(models.Lectureinfo,{
+      foreignKey:'SUBE_KODU'
+     
+    });
    
   };
 
