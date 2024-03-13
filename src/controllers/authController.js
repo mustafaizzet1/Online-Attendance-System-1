@@ -47,30 +47,7 @@ exports.Auth = async (req, res) => {
             console.log("Geçersiz e-posta adresi");
             return res.redirect('/login?error=true');
         }
-    let user;
-
-    try {
-        const users = await users.findOne({
-            where: { KULLANICI_KODU: email,PAROLA: password },
-        });
-
-        if (!users) {
-            console.log("Kullanıcı bulunamadı");
-            return res.redirect('/login?error=true');
-        }
-
-
-        user = { name: username, role: '' };
-        // E-posta adresinin öğrenci veya öğretmen uzantısına göre kullanıcıyı belirle
-        if (/^[\w-.]+@ogr\.deu\.edu\.tr$/.test(email)) {
-            user.role = 'ogr'; // Öğrenci
-        } else if (/^[\w-.]+@deu\.edu\.tr$/.test(email)) {
-            user.role = 'deu'; // Öğretim üyesi veya idari personel
-        } else {
-            // Geçersiz e-posta adresi
-            console.log("Geçersiz e-posta adresi");
-            return res.redirect('/login?error=true');
-        }
+  
 
         // Kullanıcı bulundu ve rol belirlendi ise, oturumu başlat
         req.session.user = user;
