@@ -39,6 +39,9 @@ module.exports = (sequelize, DataTypes) => {
 
     Studentlist.associate = (models) => {
        Studentlist.belongsTo(models.Submission_type);     
+       Studentlist.belongsTo(models.Attendancelist,{
+        foreignKey:'Attendancelist_id'
+       })
     };
 
     return Studentlist;
