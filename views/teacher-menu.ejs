@@ -141,24 +141,30 @@
 
     <script>
         fetch('/courses')
-        .then(response => response.json())
-        .then(courses => {
-            const coursesContainer = document.querySelector('.courses');
+    .then(response => response.json())
+    .then(data => {
+        const coursesContainer = document.querySelector('.courses');
 
-            // Loop through the courses and create HTML elements for each course
-            courses.forEach(course => {
-                const courseDiv = document.createElement('div');
-                courseDiv.classList.add('course');
+        data.forEach(item => {
+            const lectureinfo = item.lectureinfo;
+            const branch = item.branch;
 
-                const courseLink = document.createElement('a');
-                courseLink.href = `/course-details?courseId=${course.DERS_KODU}`;
-                courseLink.textContent = course.Lecture.DERS_ADI+" "+course.;
+            const courseDiv = document.createElement('div');
+            courseDiv.classList.add('course');
 
-                courseDiv.appendChild(courseLink);
-                coursesContainer.appendChild(courseDiv);
-            });
-        })
-        .catch(error => console.error('Error fetching courses:', error));
+            const courseLink = document.createElement('a');
+            courseLink.href = `/course-details?courseId=${lectureinfo.DERS_KODU}/${branch.SUBE_ADI}`;
+            courseLink.textContent = lectureinfo.Lecture.DERS_ADI+" "+`Branch: ${branch.SUBE_ADI}`;
+
+            
+
+            courseDiv.appendChild(courseLink);
+            
+            coursesContainer.appendChild(courseDiv);
+        });
+    })
+    .catch(error => console.error('Error fetching courses:', error));
+
     
     </script>
  </body>
