@@ -151,8 +151,8 @@
                 courseDiv.classList.add('course');
 
                 const courseLink = document.createElement('a');
-                courseLink.href = `/course-details?courseId=${course.id}`;
-                courseLink.textContent = course.name;
+                courseLink.href = `/course-details?courseId=${course.DERS_KODU}`;
+                courseLink.textContent = course.Lecture.DERS_ADI;
 
                 courseDiv.appendChild(courseLink);
                 coursesContainer.appendChild(courseDiv);

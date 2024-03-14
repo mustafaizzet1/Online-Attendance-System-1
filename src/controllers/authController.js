@@ -36,7 +36,7 @@ exports.Auth = async (req, res) => {
         }
 
 
-        user = { name: username, role: '' };
+        user = { KULLANICI_KODU: username, role: '' };
         // E-posta adresinin öğrenci veya öğretmen uzantısına göre kullanıcıyı belirle
         if (/^[\w-.]+@ogr\.deu\.edu\.tr$/.test(email)) {
             user.role = 'ogr'; // Öğrenci
