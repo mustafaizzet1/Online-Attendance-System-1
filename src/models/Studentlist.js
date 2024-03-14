@@ -42,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
        Studentlist.belongsTo(models.Attendancelist,{
         foreignKey:'Attendancelist_id'
        })
+       Studentlist.belongsTo(models.Submission_type);
+       Studentlist.belongsTo(models.Attendancelist,{
+        foreignKey:'Attendancelist_id'
+       })     
     };
 
     return Studentlist;

@@ -47,6 +47,7 @@ exports.Auth = async (req, res) => {
             console.log("Geçersiz e-posta adresi");
             return res.redirect('/login?error=true');
         }
+  
 
         // Kullanıcı bulundu ve rol belirlendi ise, oturumu başlat
         req.session.user = user;
