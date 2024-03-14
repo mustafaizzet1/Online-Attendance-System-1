@@ -152,7 +152,7 @@
 
                 const courseLink = document.createElement('a');
                 courseLink.href = `/course-details?courseId=${course.DERS_KODU}`;
-                courseLink.textContent = course.Lecture.DERS_ADI;
+                courseLink.textContent = course.Lecture.DERS_ADI+" "+course.;
 
                 courseDiv.appendChild(courseLink);
                 coursesContainer.appendChild(courseDiv);

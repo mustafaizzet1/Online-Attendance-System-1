@@ -215,9 +215,12 @@ function sendAttendanceInfo(latitude, longitude) {
     const courseId = urlParams.get('courseId');
     const theoreticalRadio = document.getElementById('theoreticalRadio');
     const practicalRadio = document.getElementById('practicalRadio');
+    const block=document.getElementById('blockLectureSelect');
+
 
     // Seçili olan ders tipini kontrol et ve belirle
     let selectedCourseType = '';
+    let blockvalue=block.value;
     if (theoreticalRadio.checked) {
         selectedCourseType = 'Teorik';
     } else if (practicalRadio.checked) {
@@ -225,12 +228,12 @@ function sendAttendanceInfo(latitude, longitude) {
     }
 
     // Fetch isteğini burada yap
-    fetch('/helper/yoklamabaslat', {
+    fetch('/yoklama/yoklamabaslat', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ courseId, type: selectedCourseType, longitude, latitude })
+        body: JSON.stringify({ courseId, type: selectedCourseType, longitude, latitude,block:blockvalue })
     })
     .then(response => {
         if (!response.ok) {
@@ -240,7 +243,7 @@ function sendAttendanceInfo(latitude, longitude) {
     })
     .then(data => {
         // Cevap başarılı, QR kod sayfasına yönlendir
-        window.location.href = `qrGenerator?qrData=${encodeURIComponent(data.code)}`;
+        //window.location.href = `qrGenerator?qrData=${encodeURIComponent(data.code)}`;
     })
     .catch(error => {
         console.error('Hata:', error);

@@ -7,5 +7,6 @@ const { checkTeacher} = require('../middlewares/AuthMiddleware');
 const yoklamaController= require('../controllers/yoklamaController');
 
 router.get('/yoklama',checkTeacher,yoklamaController.yoklama);
+router.post('/yoklama/yoklamabaslat',yoklamaController.startAttendance);
 
 module.exports = router;  // Boşluklar kaldırıldı
