@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.DOUBLE,
             allowNull:false
           },
+        
+          activation :{
+            type:DataTypes.SMALLINT,
+            allowNull:false
+          },
           longitude:{
             type:DataTypes.DOUBLE,
             allowNull:false

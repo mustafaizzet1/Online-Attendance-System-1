@@ -15,7 +15,7 @@ exports.courses = async (req, res) => {
     try {
         // Fetch Lectureinfos
         const lectureinfos = await Lectureinfo.findAll({
-            where: { OGRETIM_DONEMI_KODU: OGRETIM_DONEMI_KODU, KULLANICI_KODU: "mehmet.ozcanhan@deu.edu.tr" },
+            where: { OGRETIM_DONEMI_KODU: OGRETIM_DONEMI_KODU, KULLANICI_KODU:req.session.user.KULLANICI_KODU },
             include: [
                 { 
                     model: Lecture
