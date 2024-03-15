@@ -32,6 +32,17 @@ module.exports = (sequelize, DataTypes) => {
           updatedAt: 'updatedAt',
           createdAt: 'createdAt',
         });
+        Studentlist.associate = (models) => {
+          Studentlist.belongsTo(models.Lectureinfo, {
+          });
+
+
+          Studentlist.hasOne(models.Session, {
+            through: 'Attendancelist',
+                });
+        };
+      
+      
 
     return Studentlist;
 };

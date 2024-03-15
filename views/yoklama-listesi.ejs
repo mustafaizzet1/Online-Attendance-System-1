@@ -149,7 +149,7 @@
             var date = urlParams.get('date');
             date = decodeURIComponent(date);
             const courseId = urlParams.get('courseId');
-            fetch(`/helper/liste/${courseId}/${date}`)
+            fetch(`/helper/liste/${courseId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -158,7 +158,9 @@
                 })
                 .then(data => {
                     data.forEach(e => {
-                        students.push({ number: e.id, name: e.name, attendance: e.attendance })
+                        console.log("fsaf")
+                        console.log(e.attendanceList.OGRENCI_NO)
+                        students.push({ number:e.attendanceList.OGRENCI_NO, name: e.attendanceList.AD+e.attendanceList.SOYAD, attendance: e.attendance })
                     })
 
                     // Reference to the table body
