@@ -1,6 +1,24 @@
+const Studentlist = require("./Studentlist");
+
 // models/Attendancelist.js
 module.exports = (sequelize, DataTypes) => {
   const Attendancelist = sequelize.define('Attendancelist', {
+    absence: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    operation_reason:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    latitude :{
+      type:DataTypes.DOUBLE,
+      allowNull:false
+    },
+    longitude:{
+      type:DataTypes.DOUBLE,
+      allowNull:false
+    },
     // ... model attributes
     createdAt: {
       type: DataTypes.DATE,
@@ -15,11 +33,11 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updatedAt', // Specify the name of the updatedAt column
     createdAt: 'createdAt', // Specify the name of the createdAt column
   });
-
   Attendancelist.associate = (models) => {
-    Attendancelist.belongsTo(models.Users, { foreignKey: 'creator_id' });
-    Attendancelist.belongsTo(models.Session, { foreignKey: 'session_id' });
+    Attendancelist.belongsTo(models.Submission_type, {
+    });
   };
+
 
   return Attendancelist;
 };

@@ -2,27 +2,23 @@ const Submission_type = require("./Submission_type");
 
 module.exports = (sequelize, DataTypes) => {
     const Studentlist = sequelize.define("Studentlist", {
-        absence: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-          },
-          operation_reason:{
-            type:DataTypes.STRING,
-            allowNull:false,
-          },
-          latitude :{
-            type:DataTypes.DOUBLE,
-            allowNull:false
-          },
-          longitude:{
-            type:DataTypes.DOUBLE,
-            allowNull:false
-          },
-          OGRENCI_NO:{
-            type:DataTypes.STRING,
-            allowNull:false
-          },
-
+      OGRENCI_NO:{
+        type:DataTypes.STRING,
+        allowNull:false,
+        primaryKey:true
+      },
+     AD:{
+        type:DataTypes.STRING,
+        allowNull:false,
+      },
+     SOYAD:{
+        type:DataTypes.STRING,
+        allowNull:false,
+      },
+     CINSIYET:{
+        type:DataTypes.STRING,
+        allowNull:false,
+      },
           createdAt: {
             type: DataTypes.DATE,
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
@@ -36,17 +32,6 @@ module.exports = (sequelize, DataTypes) => {
           updatedAt: 'updatedAt',
           createdAt: 'createdAt',
         });
-
-    Studentlist.associate = (models) => {
-       Studentlist.belongsTo(models.Submission_type);     
-       Studentlist.belongsTo(models.Attendancelist,{
-        foreignKey:'Attendancelist_id'
-       })
-       Studentlist.belongsTo(models.Submission_type);
-       Studentlist.belongsTo(models.Attendancelist,{
-        foreignKey:'Attendancelist_id'
-       })     
-    };
 
     return Studentlist;
 };

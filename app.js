@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const routes = require('./src/routes/index');
 const fs = require('fs'); // Dosya sistemi modülünü dahil edin
 const https = require('https'); // HTTPS modülünü dahil edin
+const WebSocket = require('ws');
 var db = require('./src/models/');
 require('dotenv').config();
 

@@ -153,7 +153,7 @@
             courseDiv.classList.add('course');
 
             const courseLink = document.createElement('a');
-            courseLink.href = `/course-details?courseId=${lectureinfo.DERS_KODU}/${branch.SUBE_KODU}/${branch.OGR_BIRIM_KODU}`;
+            courseLink.href = `/course-details?courseId=${lectureinfo.id}`;
             courseLink.textContent = lectureinfo.Lecture.DERS_ADI+" "+`Branch: ${branch.SUBE_ADI}`;
 
             

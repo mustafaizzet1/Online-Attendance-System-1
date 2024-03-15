@@ -213,18 +213,29 @@ function sendAttendanceInfo(latitude, longitude) {
     const urlParams = new URLSearchParams(window.location.search);
     console.log(window.location.search);
     const courseId = urlParams.get('courseId');
+    console.log(courseId)
+  
     const theoreticalRadio = document.getElementById('theoreticalRadio');
     const practicalRadio = document.getElementById('practicalRadio');
+    const onlineRadio = document.getElementById('onlineRadio');
+    const faceToFaceRadio= document.getElementById('faceToFaceRadio');
     const block=document.getElementById('blockLectureSelect');
-
+    const qrValidityPeriodSelect=document.getElementById('qrValidityPeriodSelect');
 
     // Seçili olan ders tipini kontrol et ve belirle
     let selectedCourseType = '';
     let blockvalue=block.value;
+    let qr=qrValidityPeriodSelect.value;
+    let selectedstatus='';
     if (theoreticalRadio.checked) {
         selectedCourseType = 'Teorik';
     } else if (practicalRadio.checked) {
         selectedCourseType = 'Uygulama';
+    }
+    if (onlineRadio.checked) {
+        selectedstatus = 'Online';
+    } else if (faceToFaceRadio.checked) {
+        selectedstatus = 'Yüzyüze';
     }
 
     // Fetch isteğini burada yap
@@ -233,7 +244,7 @@ function sendAttendanceInfo(latitude, longitude) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ courseId, type: selectedCourseType, longitude, latitude,block:blockvalue })
+        body: JSON.stringify({ courseId, type: selectedCourseType, longitude, latitude,block:blockvalue,lectureinfoid:courseId,status:selectedstatus})
     })
     .then(response => {
         if (!response.ok) {
@@ -243,7 +254,7 @@ function sendAttendanceInfo(latitude, longitude) {
     })
     .then(data => {
         // Cevap başarılı, QR kod sayfasına yönlendir
-        //window.location.href = `qrGenerator?qrData=${encodeURIComponent(data.code)}`;
+        window.location.href = `qrGenerator?qrData=${courseId}`;
     })
     .catch(error => {
         console.error('Hata:', error);
