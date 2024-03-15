@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     operation_reason:{
       type:DataTypes.STRING,
-      allowNull:false,
+      allowNull:true,
     },
     latitude :{
       type:DataTypes.DOUBLE,

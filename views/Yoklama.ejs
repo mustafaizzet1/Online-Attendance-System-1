@@ -254,7 +254,7 @@ function sendAttendanceInfo(latitude, longitude) {
     })
     .then(data => {
         // Cevap başarılı, QR kod sayfasına yönlendir
-        window.location.href = `qrGenerator?qrData=${courseId}`;
+        window.location.href = `qrGenerator?qrData=${data.sessionId}/${data.code}`;
     })
     .catch(error => {
         console.error('Hata:', error);

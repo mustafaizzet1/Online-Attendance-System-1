@@ -1,4 +1,3 @@
-
 const qr = require('qrcode');
 exports.createdqr = async(req, res) => {
 

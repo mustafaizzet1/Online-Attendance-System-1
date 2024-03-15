@@ -96,73 +96,26 @@
   <div id="qrCodeDisplay">
     <div id="qrDisplay"></div>
     <div id="qrcode"></div>
-    <div id="remainingTime"></div>
-    <button id="showQRCodeBtn" onclick="showQRText()">Show QR Code</button>
+   
     <div id="qrtext"></div>
   </div>
   <div></div>
 
   <script>
-     const randomText = '<%= randomText %>';
-     const qrCodeDataURL = '<%= qrCodeDataURL %>';
-    const urlParams = new URLSearchParams(window.location.search);
-    const qrData = urlParams.get('qrData');
-    document.getElementById("qrtext").innerText=randomText
-
-    function generateAndDisplayQRCode() {
-      // Use the variables passed from the server
-      
-      updateQRCode( qrCodeDataURL,randomText);
-    }
-    function updateQRCode(qrCodeDataURL, randomText) {
-      const qrDisplay = document.getElementById('qrDisplay');
-      qrDisplay.innerHTML = `<img src="${qrCodeDataURL}" alt="QR Code" style="width: 300px; height: 300px; max-width: 100%; max-height: 100%;" />`;
-    
-    }
-
-    function updateRemainingTime(seconds) {
-      const remainingTimeDisplay = document.getElementById('remainingTime');
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
-      console.log(remainingSeconds)
-      remainingTimeDisplay.textContent = `Remaining Time: ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-    }
-   
-
-    let timer;
-    let seconds = 30;
-
-    function startUpdatingQRCode() {
-      generateAndDisplayQRCode(); // Call initially
-      showQRText();
-      timer = setInterval(function () {
-        updateRemainingTime(seconds);
-        seconds--;
-
-        if (seconds < 0) {
-          clearInterval(timer);
-          timer = null;
-          seconds = 30;
-          startUpdatingQRCode(); // Restart the process
-        }
-      }, 1000); // Update every second
-    }
-    let buttonClicked=true;
-    function showQRText(){
-      const qrtext = document.getElementById('qrtext');
-      qrtext.style.display = buttonClicked ? 'none' : 'block';
-      buttonClicked = !buttonClicked; // Toggle the state
-    }
-    // Start the process
-    startUpdatingQRCode();
-
-    const urs=urlParams.get('qrData');
-    
-
-
-
+   const urlParams = new URLSearchParams(window.location.search);
+  const qrData = urlParams.get('qrData');
+  const qrDataParts = qrData.split('/'); // Split the qrData by "/"
+  const secondPart = qrDataParts[1]; // Get the second part
+    document.getElementById("qrtext").innerText=secondPart
     // Generate and display the QR code
-   
+    const qrcode = new QRCode(document.getElementById("qrcode"), {
+      text: secondPart,
+      width: 256, // Set width and height to make the QR code larger
+      height: 256,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
   </script>
 
 </body>

@@ -8,5 +8,6 @@ const yoklamaController= require('../controllers/yoklamaController');
 
 router.get('/yoklama',checkTeacher,yoklamaController.yoklama);
 router.post('/yoklama/yoklamabaslat',yoklamaController.startAttendance);
+router.post('/yoklama/yoklamakatil',yoklamaController.joinAttendance);
 
 module.exports = router;  // Boşluklar kaldırıldı

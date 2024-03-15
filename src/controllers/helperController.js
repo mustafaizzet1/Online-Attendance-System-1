@@ -104,50 +104,7 @@ exports.helper = (req, res) => {
 
 
 
-exports.joinAttendance = (req, res) => {
-    const { code } = req.body; // POST ile gönderilen yoklama kodu
-    const name = req.session.user.name;
-    const [userPart, _] = name.split('@'); // domainPart kullanılmadığı için "_" ile gösterilmiştir.
-    const studentId = userPart;
 
-    // Kodu kullanarak aktif yoklamayı bul
-    const attendanceEntry = activeAttendances[code];
-    console.log(attendanceEntry, "---", code)
-
-    if (!attendanceEntry) {
-        return res.status(404).json({ message: 'Bu kod ile ilişkilendirilmiş bir yoklama bulunamadı.' });
-    }
-
-    const now = new Date();
-    const endTime = new Date(attendanceEntry.endTime);
-    if (now > endTime) {
-        return res.status(400).json({ message: 'Yoklama süresi doldu.' });
-    }
-
-    const courseId = attendanceEntry.courseId;
-    // Öğrenci kaydını kontrol et
-    if (!(studentLists[courseId] && studentLists[courseId].some(student => student.id === studentId))) {
-        return res.status(404).json({ message: 'Öğrenci bu kurs için kayıtlı değil.' });
-    }
-
-    const attendanceDate = attendanceEntry.startTime;
-
-    console.log(attendanceDate)
-    if (!attendanceRecords[courseId]) {
-        attendanceRecords[courseId] = {}; // Eğer courseId için bir kayıt yoksa, yeni bir obje oluştur
-    }
-
-    if (!attendanceRecords[courseId][attendanceDate]) {
-        // Eğer o tarih için bir kayıt yoksa, katılımcı listesi ile birlikte yeni bir kayıt oluştur
-        attendanceRecords[courseId][attendanceDate] = { type: attendanceEntry.type, participants: [] };
-    }
-
-    // Yoklama kaydına öğrenci katılımını ekle
-    attendanceRecords[courseId][attendanceDate].participants.push({ id: studentId, name: name, time: now.toISOString() });
-
-    console.log(attendanceRecords);
-    res.status(200).json({ message: 'Yoklamaya katılım kaydedildi.' });
-};
 
 exports.yoklamaSaatleriListesi = (req, res) => {
     const courseId = req.params.courseId;
