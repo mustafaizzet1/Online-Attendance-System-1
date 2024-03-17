@@ -151,13 +151,14 @@
     </div>
 
     <script>
+       
         document.addEventListener("DOMContentLoaded", function () {
             const urlParams = new URLSearchParams(window.location.search);
             const courseId = urlParams.get('courseId');
 
 
             // API'ye istek yap
-            fetch(`/helper/courses/${courseId}`)
+            fetch(`/student-list/courses/${courseId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('API isteği başarısız.');
@@ -175,10 +176,10 @@
                     data.forEach(student => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                    <td>${student.id}</td>
-                    <td>${student.name}</td>
-                    <td>${student.courseAttendance}</td>
-                    <td>${student.labAttendance}</td>
+                    <td>${student.OGRENCI_NO}</td>
+                    <td>${student.AD+" "+student.SOYAD}</td>
+                 
+                   
                 `;
                         tbody.appendChild(row);
                     });

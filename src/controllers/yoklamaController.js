@@ -156,6 +156,40 @@ if (isWithin3Meters(lat1, lon1, lat2, lon2)) {
     console.log('Belirtilen nokta, 3 metre dışında.');
 }*/
 
+
+exports.yoklamaSaatleriListesi = async(req, res) => {
+    const courseId = req.params.courseId;
+
+    const listOfSession = await Session.findAll({
+        where: { LectureinfoId: courseId },
+    });
+    
+    const responseDetails = {
+        teorik: [],
+        uygulama: []
+    };
+
+    // Dersin yoklama tarihleri ve saatleri varsa, detaylarını döndür
+   
+
+
+
+  
+
+   listOfSession.forEach(session => {
+    // Ders tipine göre ayrı listelere ekle
+    if (session.sessiontype === "Teorik") {
+        responseDetails.teorik.push([session.createdAt,session.id]);
+    } else if (session.sessiontype === "Uygulama") {
+        responseDetails.uygulama.push([session.createdAt,session.id]);
+    }
+});
+
+res.json(responseDetails);
+    
+
+};
+
 exports.startAttendance = async (req, res) => {
     const { courseId, type, latitude, longitude, block, lectureinfoid, status } = req.body; // POST ile gönderilen kurs ID'si ve ders tipi
     console.log(lectureinfoid)

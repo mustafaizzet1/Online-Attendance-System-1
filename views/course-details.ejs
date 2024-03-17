@@ -344,7 +344,7 @@
 
 
 
-    const theoryData = [
+    const Data = [
 
     ];
 
@@ -388,7 +388,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       const courseId = urlParams.get('courseId');
 
-      fetch(`/helper/${courseId}`)
+      fetch(`/yoklama/${courseId}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -396,7 +396,9 @@
           return response.json();
         })
         .then(data => {
-          // Burada 'data' içindeki 'theoryData' ve 'practiceData' kullanılabilir
+
+          
+          
           updateTableRows("theoryTable", data.teorik);
           updateTableRows("practiceTable", data.uygulama);
         })
@@ -418,7 +420,7 @@
         const row = document.createElement("tr");
         const dateCell = document.createElement("td");
 
-        var dateObj = new Date(item);
+        var dateObj = new Date(item[0]);
 
         // Date objesini YYYY-MM-DD formatına dönüştür
         var formattedDate = dateObj.toISOString().split('T')[0];
@@ -430,7 +432,7 @@
         viewAbsenceListButton.textContent = "Yoklama Listesini Gör";
         viewAbsenceListButton.addEventListener('click', () => {
           
-          window.location.href = `/Yoklama-listesi?courseId=${courseId}&date=${new Date(item).getTime()}`;
+          window.location.href = `/Yoklama-listesi?courseId=${item[1]}`;
         });
 
         viewAbsenceListCell.appendChild(viewAbsenceListButton);
