@@ -9,19 +9,19 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0 // absence için varsayılan değer olarak 0
 
     },
-    operation_reason:{
-      type:DataTypes.STRING,
-      allowNull:true,
+    operation_reason: {
+      type: DataTypes.STRING,
+    
     },
-    latitude :{
-      type:DataTypes.DOUBLE,
-      allowNull:false,
+    latitude: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
       defaultValue: 0.0 // absence için varsayılan değer olarak 0
 
     },
-    longitude:{
-      type:DataTypes.DOUBLE,
-      allowNull:false,
+    longitude: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
       defaultValue: 0.0 // absence için varsayılan değer olarak 0
 
     },
@@ -40,7 +40,16 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: 'createdAt', // Specify the name of the createdAt column
   });
   Attendancelist.associate = (models) => {
+
+    Attendancelist.belongsTo(models.Session, {
+      foreignKey: 'SessionId',
+    
+    });
+    Attendancelist.belongsTo(models.Studentlist, { foreignKey: 'StudentlistId' });
+
+
     Attendancelist.belongsTo(models.Submission_type, {
+      foreignKey: 'submissionTypeId', // Submission_type modelindeki eşleşen foreign key
     });
   };
 

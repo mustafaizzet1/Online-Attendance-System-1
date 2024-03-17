@@ -272,7 +272,7 @@
   </div>
 
   <div class="course-name">
-    <h2 id="ders">NESNELERİN İNTERNETİ</h2>
+    <h2 id="ders"></h2>
     <div class="blue-line"></div>
   </div>
 
@@ -387,6 +387,9 @@
       // Retrieve the course ID from the URL parameter
       const urlParams = new URLSearchParams(window.location.search);
       const courseId = urlParams.get('courseId');
+      const coursename = urlParams.get("coursename");
+      console.log(coursename);
+      document.getElementById("ders").innerText=coursename;
 
       fetch(`/yoklama/${courseId}`)
         .then(response => {
@@ -432,7 +435,7 @@
         viewAbsenceListButton.textContent = "Yoklama Listesini Gör";
         viewAbsenceListButton.addEventListener('click', () => {
           
-          window.location.href = `/Yoklama-listesi?courseId=${item[1]}`;
+          window.location.href = `/Yoklama-listesi?courseId=${item[1]}&coursename=${lectureinfo.Lecture.DERS_ADI+" "+branch.SUBE_ADI}`;
         });
 
         viewAbsenceListCell.appendChild(viewAbsenceListButton);

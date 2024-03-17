@@ -4,6 +4,6 @@ const router = express.Router();
 const HomePageController = require('../controllers/studentHomePageController');
 const { checkStudent } = require('../middlewares/AuthMiddleware');
 
-router.get('/home',checkStudent, HomePageController.studentHomePage);
+router.get('/home', HomePageController.studentHomePage);
 
 module.exports = router;  // Boşluklar kaldırıldı

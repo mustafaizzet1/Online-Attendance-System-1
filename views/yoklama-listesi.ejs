@@ -159,8 +159,8 @@
                 .then(data => {
                     data.forEach(e => {
                         console.log("fsaf")
-                        console.log(e.attendanceList.OGRENCI_NO)
-                        students.push({ number:e.attendanceList.OGRENCI_NO, name: e.attendanceList.AD+e.attendanceList.SOYAD, attendance: e.attendance })
+                        console.log(e.attendanceList.Studentlist.OGRENCI_NO)
+                        students.push({ number:e.attendanceList.Studentlist.OGRENCI_NO, name: e.attendanceList.Studentlist.AD+" "+e.attendanceList.Studentlist.SOYAD, attendance: e.attendanceList.absence })
                     })
 
                     // Reference to the table body

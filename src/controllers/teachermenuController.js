@@ -4,7 +4,7 @@ const { Lecture, Lectureinfo, Branch } = require("../models");
 exports.teacher = (req, res) => {
 
 
-    res.render('teacher-menu', { name: req.session.user.KULLANICI_KODU });
+    res.render('teacher-menu', { name: req.session.user.UNVAN +" "+ req.session.user.ISIM+" "+   req.session.user.SOYISIM  });
 
 
 };

@@ -39,6 +39,12 @@ module.exports = (sequelize, DataTypes) => {
     Users.hasMany(models.Lectureinfo, {
       foreignKey: 'KULLANICI_KODU'
     });
+    Users.hasMany(models.Session, { foreignKey: 'createdby' });
+    Users.belongsToMany(models.Session, {
+      through: models.Authorizedpersons,
+      foreignKey: 'UserId',
+      otherKey: 'Sessionid',
+    });
   };
   
   return Users;

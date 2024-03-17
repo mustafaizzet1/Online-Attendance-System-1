@@ -38,21 +38,12 @@ module.exports = (sequelize, DataTypes) => {
           updatedAt: 'updatedAt',
           createdAt: 'createdAt',
         });
-
-    Session.associate = (models) => {
-        Session.belongsTo(models.Users, { foreignKey: 'createdby' });
-        Session.belongsTo(models.Lectureinfo);
-        Session.belongsToMany(models.Users, {
-            through: "Authorizedpersons",
-            foreignKey: "Sessionid",
-          });
-          Session.belongsToMany(models.Studentlist, {
-            through: 'Attendancelist',
-          
-          });
-          
-          
-    };
+        Session.associate = (models) => {
+          Session.belongsTo(models.Users, { foreignKey: 'createdby' });
+          Session.belongsTo(models.Lectureinfo, { foreignKey: 'LectureinfoId' });
+          Session.hasMany(models.Attendancelist, { foreignKey: 'SessionId' });
+          // belongsToMany kullanımı düzeltildi. Özel bir through modeli gerektiriyorsa bu modelin tanımına bakılmalı.
+        };
 
     return Session;
 };

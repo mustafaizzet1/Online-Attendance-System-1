@@ -18,20 +18,22 @@ const { Studentlist } = require("../models");
 
 exports.yoklamaListesi = async(req, res) => {
     try {
-        const courseId = req.params.courseId;
-        console.log(courseId)
-        
+        const sessionid = req.params.courseId;
+        console.log(sessionid);
         const listOfStudents = await Attendancelist.findAll({
-            where: { Sessionid: courseId },
+            where: { SessionId: sessionid }
             
         });
         const lectureinfosWithStudentListsAndAttendance = await Promise.all(listOfStudents.map(async (student) => {
             // Fetching associated attendance list for the student's session
-            const attendanceList = await Studentlist.findOne({
+            const attendanceList = await Attendancelist.findOne({
                 where: {
-                    OGRENCI_NO: student.StudentlistOGRENCINO,
+                    StudentlistId: student.StudentlistId,
                     // Additional conditions if needed
                 },
+                include: {
+                    model: Studentlist
+                }
                  // Adjust according to your schema
             });
         

@@ -34,9 +34,11 @@ module.exports = (sequelize, DataTypes) => {
   Studentlist.associate = (models) => {
     Studentlist.belongsTo(models.Lectureinfo, {
     });
-    Studentlist.hasOne(models.Session, {
+   /* Studentlist.hasOne(models.Session, {
       through: 'Attendancelist',
-          });
+    });*/
+    Studentlist.hasMany(models.Attendancelist, { foreignKey: 'StudentlistId' });
+
   };
 
   return Studentlist;

@@ -30,9 +30,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Branch.associate = (models) => {
-    Branch.hasMany(models.Lectureinfo,{
-      foreignKey:'SUBE_KODU'
-     
+    Branch.hasMany(models.Lectureinfo, {
+      foreignKey: 'SUBE_KODU',
     });
    
   };

@@ -24,14 +24,10 @@ exports.joinAttendance = async (req, res) => {
     const [userPart, _] = name.split('@'); // domainPart kullanılmadığı için "_" ile gösterilmiştir.
     const studentId = userPart;
 
+
     // Öğrenci numarasına göre Studentlist kayıtlarını bul
-    const studentLists = await Studentlist.findOne({
-        where: { OGRENCI_NO: studentId }
-    });
-    console.log("fvgsfvbsbfsgb", studentId)
+    var studentLists =null;
     var sessionId = null;
-    console.log(studentLists);
-    console.log("+++++++++ studentLists.LectureinfoId:", studentLists.LectureinfoId);
     try {
         for (const session_id of Object.keys(activeQRCode)) {
             if (activeQRCode[session_id] === sessionCode) {
@@ -41,6 +37,15 @@ exports.joinAttendance = async (req, res) => {
         const sessionLectureinfoId = await Session.findOne({
             where: { id: sessionId }
         });
+        console.log("+++++++++++ sessionkecturtengl:", sessionLectureinfoId);
+
+        studentLists = await Studentlist.findOne({
+            where: { OGRENCI_NO: studentId ,
+            }
+        });
+        
+        console.log("+++++++++++ sessionid.id:", studentLists.id);
+
         console.log("+++++++++++ sessionid:", sessionId);
 
         console.log("+++++++++++ sessionLectureinfoId.LectureinfoId:", sessionLectureinfoId.LectureinfoId);
@@ -69,7 +74,7 @@ exports.joinAttendance = async (req, res) => {
         const record = await Attendancelist.findOne({
             where: {
                 Sessionid: sessionId, // Tablonuzda Session ID'yi tutan sütunun adı
-                StudentlistOGRENCINO: studentId // Öğrenci numarasını tutan sütunun adı
+                StudentlistId: studentId // Öğrenci numarasını tutan sütunun adı
             }
         });
 
@@ -85,12 +90,12 @@ exports.joinAttendance = async (req, res) => {
     }
     try {
         const newAttendance = await Attendancelist.create({
-            Sessionid: sessionId, // Session ID
-            StudentlistOGRENCINO: studentId, // Öğrenci ID
+            SessionId: sessionId, // Session ID
             absence: 1,
             latitude: latitude,
             longitude: longitude,
-            SubmissionTypeId: 2
+            submissionTypeId: 2,
+            StudentlistId: studentLists.id
 
         });
         res.status(201).json(newAttendance); // Başarılı bir şekilde oluşturulan kaydı döndür

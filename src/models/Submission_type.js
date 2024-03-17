@@ -18,7 +18,14 @@ module.exports = (sequelize, DataTypes) => {
           updatedAt: 'updatedAt',
           createdAt: 'createdAt',
         });
- 
+        Submission_type.associate = (models) => {
+          // Diğer ilişkiler
+      
+          Submission_type.hasMany(models.Attendancelist, {
+            foreignKey: 'submissionTypeId', // Attendancelist modelinde Submission_type modeline referans veren foreign key
+          });
+        };
+      
 
 
     return Submission_type;

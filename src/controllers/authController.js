@@ -9,17 +9,6 @@ exports.login = (req, res) => {
 
 
 
-const users = [
-    { username: '1@deu.edu.tr', password: '123456' },
-    { username: '2@deu.edu.tr', password: '123456' },
-    { username: '3@ogr.deu.edu.tr', password: '123456' },
-    { username: '4@ogr.deu.edu.tr', password: '123456' },
-    { username: '5@ogr.deu.edu.tr', password: '123456' },
-    { username: '6@ogr.deu.edu.tr', password: '123456' },
-    { username: '7@ogr.deu.edu.tr', password: '123456' }
-];
-
-
 exports.Auth = async (req, res) => {
     const { username, password } = req.body;
     const email = username; // Kullanıcı adı yerine e-posta adresi kullanıyoruz
@@ -36,7 +25,7 @@ exports.Auth = async (req, res) => {
         }
 
 
-        user = { KULLANICI_KODU: username, role: '' };
+        user = { KULLANICI_KODU: username, role: '',ISIM:users.ISIM ,SOYISIM:users.SOYISIM, UNVAN:users.UNVAN };
         // E-posta adresinin öğrenci veya öğretmen uzantısına göre kullanıcıyı belirle
         if (/^[\w-.]+@ogr\.deu\.edu\.tr$/.test(email)) {
             user.role = 'ogr'; // Öğrenci

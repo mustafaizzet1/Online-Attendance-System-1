@@ -28,7 +28,7 @@
                         if(result.text.length==4){
                        
                         alert('QR Kod Okundu: ' + result.text);
-                        sendQRData(result.text); }
+                        submitSessionCode(result.text); }
                         else{
                             alert("qr 4 haneli değil babo")
                         }
@@ -44,6 +44,68 @@
                 console.error(err);
             });
     });
+    function submitSessionCode(code) {
+         // Değişkenleri `let` ile tanımlayarak değerlerinin değiştirilebilir olmasını sağlayın
+    let latitude = 0;
+    let longitude = 0;
+
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+
+            // GPS okunduktan sonra çalışacak kısmı buraya taşıyın
+            sendAttendanceInfo(latitude, longitude,code);
+        }, error => {
+            console.error('GPS hatası:', error.message);
+        });
+    } else {
+        console.error('GPS desteklenmiyor.');
+    }
+    
+    }
+
+    
+    function sendAttendanceInfo(latitude, longitud,code) {
+  // Oturum Kodu Gir formunu submit et
+  var sessionCodeValue = code;
+  fetch('/yoklama/yoklamakatil', {
+    method: 'POST', // HTTP metodunu POST olarak belirle
+    headers: {
+      'Content-Type': 'application/json', // Gönderilen veri tipini belirle
+    },
+    body: JSON.stringify({ sessionCode: sessionCodeValue, latitude: latitude, longitude: longitude}) // Gönderilecek veriyi JSON formatına çevir
+  })
+    .then(response => {
+      if (!response.ok) {
+        if(response.status === 401) {
+          // 401 durumu için özel bir işlem
+          alert('bu kodla bir session bulunamamıştır.');
+        }
+        else if(response.status === 402) {
+          // 401 durumu için özel bir işlem
+          alert('sınıfta değilmişim.');
+        }
+        else if(response.status === 403) {
+          // 401 durumu için özel bir işlem
+          alert('zaten giriş yaptın.');
+        }
+        else if(response.status === 405) {
+          alert('bu senin dersin değil');
+        } else {
+          throw new Error('API isteği başarısız, durum kodu: ' + response.status);
+        }
+      }
+      return response.json(); // JSON olarak cevabı dön
+    })
+    .then(data => {
+      // Cevap başarılı
+      alert("Başarılı");
+    })
+    .catch(error => {
+      console.error('Hata:', error);
+    });
+}
 
     function sendQRData(qrText) {
 
