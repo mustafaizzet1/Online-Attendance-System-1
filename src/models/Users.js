@@ -9,6 +9,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    ISIM: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    SOYISIM: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    UNVAN: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),

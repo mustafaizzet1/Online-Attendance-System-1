@@ -1,6 +1,7 @@
 // Kullanıcı girişi için fonksiyon
-exports.studentHomePage = (req, res) => {
-    const studentCourses = [
+const { Studentlist, Lectureinfo,Branch } = require("..//models")
+exports.studentHomePage = async (req, res) => {
+  /*  const studentCourses = [
         {
             name: "Data Structures", attendances: [
                 { date: "2024-02-05", type: "Teorik", attended: true },
@@ -13,14 +14,37 @@ exports.studentHomePage = (req, res) => {
         { name: "Data Mining" },
         { name: "Machine Learning" }
     ];
-
-    
-    if (req.session.user) {
-     
-        res.render('studentHomePage', { studentCourses: studentCourses,baba:req.session });
+*/
+const name = req.session.user.KULLANICI_KODU;
+const [userPart, _] = name.split('@'); // domainPart kullanılmadığı için "_" ile gösterilmiştir.
+const studentId = userPart;const studentCourses =[]
+try {
+    // Öğrenci numarasına göre Studentlist'ten LectureinfoId'yi bul
+    const studentListEntry = await Studentlist.findOne({
+      where: { OGRENCI_NO: studentId },
+      include: [{
+        model: Lectureinfo,
         
-      } else {
+      }]
+    });
+
+    if (studentListEntry) {
+      console.log('Join işlemi sonucu bulunan veri:', studentListEntry);
+    } else {
+      console.log('Belirtilen öğrenci numarasına sahip bir kayıt bulunamadı.');
+      return null; // Kayıt bulunamadı
+    }
+  } catch (error) {
+    console.error('Join işlemi sırasında bir hata oluştu:', error);
+    throw error; // Hata yönetimi
+  }
+console.log(courses);
+    if (req.session.user) {
+
+        res.render('studentHomePage', { studentCourses: studentCourses, baba: null });
+
+    } else {
         res.redirect('/');
-      }
+    }
 
 };

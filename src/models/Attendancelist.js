@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     absence: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 0 // absence için varsayılan değer olarak 0
+
     },
     operation_reason:{
       type:DataTypes.STRING,
@@ -13,11 +15,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     latitude :{
       type:DataTypes.DOUBLE,
-      allowNull:false
+      allowNull:false,
+      defaultValue: 0.0 // absence için varsayılan değer olarak 0
+
     },
     longitude:{
       type:DataTypes.DOUBLE,
-      allowNull:false
+      allowNull:false,
+      defaultValue: 0.0 // absence için varsayılan değer olarak 0
+
     },
     // ... model attributes
     createdAt: {
